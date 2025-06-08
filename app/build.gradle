@@ -34,7 +34,16 @@ dependencies {
     implementation libs.material
     implementation libs.activity
     implementation libs.constraintlayout
-    testImplementation libs.junit
+    implementation libs.commonsLang3
+    testImplementation libs.junitJupiter
+    testImplementation libs.assertJ
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
+}
+
+
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+//    jvmArgs '--enable-preview' -- with or without makes no much difference
 }
