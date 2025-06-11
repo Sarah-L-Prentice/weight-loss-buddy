@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Weight Loss Buddy</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="kg">KG</string>
+    <string name="llb">LLB</string>
+    <string name="StoneAndLlbs">Stone and Llb</string>
+    <string name="navigate_to_sliding_tabs_screen">Go to weight tracker</string>
 </resources>
