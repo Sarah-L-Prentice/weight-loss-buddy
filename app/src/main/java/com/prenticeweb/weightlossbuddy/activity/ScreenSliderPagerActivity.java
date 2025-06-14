@@ -20,12 +20,12 @@ public class ScreenSliderPagerActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen_slider);
+        initPagerAdapter();
+        initViewPager();
+        initTabLayout();
+    }
 
-        viewPager = findViewById(R.id.pager);
-        pagerAdapter = new ScreenSlidePagerAdapter(this, 3);
-        viewPager.setAdapter(pagerAdapter);
-        viewPager.setPageTransformer(new ZoomOutPageTransformer());
-
+    private void initTabLayout() {
         tabLayout = findViewById(R.id.tab_layout);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
@@ -52,6 +52,16 @@ public class ScreenSliderPagerActivity extends FragmentActivity {
                 tabLayout.getTabAt(position).select();
             }
         });
+    }
+
+    private void initPagerAdapter() {
+        pagerAdapter = new ScreenSlidePagerAdapter(this, 3);
+    }
+
+    private void initViewPager() {
+        viewPager = findViewById(R.id.pager);
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.setPageTransformer(new ZoomOutPageTransformer());
     }
 
     @Override

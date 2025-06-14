@@ -1,12 +1,19 @@
 package com.prenticeweb.weightlossbuddy.activity;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.prenticeweb.weightlossbuddy.R;
 
@@ -55,12 +62,36 @@ public class Tab1 extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tab_1, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_tab_1, container, false);
+
+        //random data
+        String[] presidents = {"Dwight D. Eisenhower", "John F. Kennedy",
+                "Lyndon B. Johnson"};
+
+        Context context = getActivity();
+
+        TableLayout tableLayout = rootView.findViewById(R.id.tableLayout1);
+
+        for (int i = 0; i < presidents.length; i++) {
+            TableRow tableRow = new TableRow(context);
+            TextView textView = new TextView(context);
+            textView.setPadding(10, 10, 10, 10);
+            textView.setGravity(Gravity.CENTER);
+            textView.setText(presidents[i]);
+            textView.setTextColor(Color.BLACK);
+            textView.setTextSize(20);
+            textView.setBackgroundResource(R.color.lightYellow);
+            tableRow.addView(textView);
+            tableLayout.addView(tableRow);
+        }
+        return rootView;
     }
+
 }
