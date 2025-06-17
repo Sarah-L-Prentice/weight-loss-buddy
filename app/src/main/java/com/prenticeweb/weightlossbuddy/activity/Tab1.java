@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -82,16 +83,26 @@ public class Tab1 extends Fragment {
         for (int i = 0; i < presidents.length; i++) {
             TableRow tableRow = new TableRow(context);
             TextView textView = new TextView(context);
-            textView.setPadding(10, 10, 10, 10);
-            textView.setGravity(Gravity.CENTER);
+            setStyling(textView);
             textView.setText(presidents[i]);
-            textView.setTextColor(Color.BLACK);
-            textView.setTextSize(20);
-            textView.setBackgroundResource(R.color.lightYellow);
             tableRow.addView(textView);
             tableLayout.addView(tableRow);
         }
+        TableRow tableRow = new TableRow(context);
+        EditText editText = new EditText(context);
+        setStyling(editText);
+        editText.setHint("Weight in KG");
+        tableRow.addView(editText);
+        tableLayout.addView(tableRow);
         return rootView;
+    }
+
+    private void setStyling(TextView textView) {
+        textView.setPadding(10, 10, 10, 10);
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextColor(Color.BLACK);
+        textView.setTextSize(20);
+        textView.setBackgroundResource(R.color.lightYellow);
     }
 
 }
