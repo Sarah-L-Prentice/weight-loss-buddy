@@ -4,14 +4,17 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -33,6 +36,9 @@ public class Tab1 extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private EditText enterDate;
+    private EditText enterWeight;
+    private Button saveButton;
 
     public Tab1() {
         // Required empty public constructor
@@ -70,38 +76,68 @@ public class Tab1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_tab_1, container, false);
+        return inflater.inflate(R.layout.fragment_tab_1, container, false);
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         //random data
-        String[] presidents = {"Dwight D. Eisenhower", "John F. Kennedy",
-                "Lyndon B. Johnson"};
+        String[] dates = {"2025-05-07", "2025-05-14",
+                "2025-05-21"};
+        String[] weights = {"80", "79",
+                "78"};
 
         Context context = getActivity();
 
-        TableLayout tableLayout = rootView.findViewById(R.id.tableLayout1);
+        TableLayout tableLayout = view.findViewById(R.id.tableLayout1);
 
-        for (int i = 0; i < presidents.length; i++) {
+        for (int i = 0; i < dates.length; i++) {
             TableRow tableRow = new TableRow(context);
-            TextView textView = new TextView(context);
-            setStyling(textView);
-            textView.setText(presidents[i]);
-            tableRow.addView(textView);
+
+            TextView textViewDate = new TextView(context);
+            setStyling(textViewDate);
+            textViewDate.setText(dates[i]);
+            tableRow.addView(textViewDate);
+
+            TextView textViewWeight = new TextView(context);
+            setStyling(textViewWeight);
+            textViewWeight.setText(weights[i]);
+            tableRow.addView(textViewWeight);
+
             tableLayout.addView(tableRow);
         }
         TableRow tableRow = new TableRow(context);
-        EditText editText = new EditText(context);
-        setStyling(editText);
-        editText.setHint("Weight in KG");
-        tableRow.addView(editText);
+
+        EditText enterDate = new EditText(context);
+        setStyling(enterDate);
+        enterDate.setHint("Date");
+        enterDate.setInputType(InputType.TYPE_DATETIME_VARIATION_DATE);
+        tableRow.addView(enterDate);
+        this.enterDate = enterDate;
+
+        EditText enterWeight = new EditText(context);
+        setStyling(enterWeight);
+        enterWeight.setHint("Weight in KG");
+        enterWeight.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        tableRow.addView(enterWeight);
+        this.enterWeight = enterWeight;
+
         tableLayout.addView(tableRow);
-        return rootView;
+
+        this.saveButton = view.findViewById(R.id.button);
+        saveButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void setStyling(TextView textView) {
-        textView.setPadding(10, 10, 10, 10);
-        textView.setGravity(Gravity.CENTER);
+        textView.setPadding(10, 10,10, 10);
+        textView.setGravity(Gravity.CENTER_HORIZONTAL);
         textView.setTextColor(Color.BLACK);
-        textView.setTextSize(20);
+        textView.setTextSize(14);
         textView.setBackgroundResource(R.color.lightYellow);
     }
 

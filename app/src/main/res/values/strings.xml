@@ -4,5 +4,7 @@
     <string name="kg">KG</string>
     <string name="lb">LB</string>
     <string name="StoneAndLlbs">Stone and lb</string>
-    <string name="navigate_to_sliding_tabs_screen">Go to weightMeasurement tracker</string>
+    <string name="navigate_to_weight_tracker_screen">Go to weight tracker</string>
+    <string name="Date">Date</string>
+    <string name="Weight">Weight</string>
 </resources>

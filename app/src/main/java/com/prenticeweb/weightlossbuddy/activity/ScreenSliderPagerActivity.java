@@ -1,7 +1,6 @@
 package com.prenticeweb.weightlossbuddy.activity;
 
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
