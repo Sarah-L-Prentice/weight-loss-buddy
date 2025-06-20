@@ -12,20 +12,10 @@ import lombok.Setter;
 @Entity
 public class WeightMeasurement {
 
-    @PrimaryKey(autoGenerate = true)
-    private int id = 0;
+    @PrimaryKey
     private Date date;
     private BigDecimal weightKg;
     private BigDecimal weightLb;
-    private BigDecimal weightStonesAndLb;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Date getDate() {
         return date;
@@ -49,13 +39,5 @@ public class WeightMeasurement {
 
     public void setWeightLb(BigDecimal weightLb) {
         this.weightLb = weightLb;
-    }
-
-    public BigDecimal getWeightStonesAndLb() {
-        return weightStonesAndLb;
-    }
-
-    public void setWeightStonesAndLb(BigDecimal weightStonesAndLb) {
-        this.weightStonesAndLb = weightStonesAndLb;
     }
 }
