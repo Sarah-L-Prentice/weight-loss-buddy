@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.prenticeweb.weightlossbuddy.R;
 import com.prenticeweb.weightlossbuddy.calculations.WeightConverter;
+import com.prenticeweb.weightlossbuddy.room.view.WeightViewModel;
 import com.prenticeweb.weightlossbuddy.unit.weight.Kilogram;
 import com.prenticeweb.weightlossbuddy.unit.weight.Pound;
 import com.prenticeweb.weightlossbuddy.unit.weight.StoneAndPounds;
@@ -25,6 +26,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class NewWeightDialogFragment extends AppCompatDialogFragment {
+
+    private final WeightViewModel viewModel;
+
+    public NewWeightDialogFragment(WeightViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
 
     private DatePickerDialog datePicker;
     private Button dateButton;
@@ -53,7 +60,7 @@ public class NewWeightDialogFragment extends AppCompatDialogFragment {
         Button saveButton = dialog.findViewById(R.id.save);
         saveButton.setOnClickListener(v -> {
             // Save to DB
-
+            viewModel.insert(dateButton.getText().toString(), kgEditText.getText().toString(), lbEditText.getText().toString());
             // close dialog
             dialog.dismiss();
         });
@@ -115,21 +122,18 @@ public class NewWeightDialogFragment extends AppCompatDialogFragment {
 
     private void initDateButton(Dialog dialog) {
         dateButton = dialog.findViewById(R.id.dateButton);
-        dateButton.setOnClickListener(view -> openDatePicker(view));
+        dateButton.setOnClickListener(view -> openDatePicker());
         dateButton.setText(sdf.format(getTodayDate()));
     }
 
     private void initDatePicker() {
-        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.YEAR, year);
-                cal.set(Calendar.MONTH, month);
-                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                Date date = cal.getTime();
-                dateButton.setText(sdf.format(date));
-            }
+        DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.YEAR, year);
+            cal.set(Calendar.MONTH, month);
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            Date date = cal.getTime();
+            dateButton.setText(sdf.format(date));
         };
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
@@ -143,7 +147,7 @@ public class NewWeightDialogFragment extends AppCompatDialogFragment {
         return cal.getTime();
     }
 
-    public void openDatePicker(View view) {
+    public void openDatePicker() {
         datePicker.show();
     }
 

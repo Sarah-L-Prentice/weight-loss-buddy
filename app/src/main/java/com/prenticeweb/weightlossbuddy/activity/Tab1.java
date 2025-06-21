@@ -24,6 +24,7 @@ import com.prenticeweb.weightlossbuddy.room.view.WeightViewModel;
 import com.prenticeweb.weightlossbuddy.unit.Unit;
 import com.prenticeweb.weightlossbuddy.unit.weight.Kilogram;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.function.Function;
 
@@ -52,22 +53,22 @@ public class Tab1 extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        initData();
+        initData(view);
         initTableView(view);
         initAddNewButton(view);
     }
 
-    private void initData() {
+    private void initData(View view) {
         weights = viewModel.getReadAll();
         weights.observe(getViewLifecycleOwner(), weightMeasurements -> {
-//                initTableView(view);
+                initTableView(view);
         });
     }
 
     private void initAddNewButton(View view) {
         FloatingActionButton newWeightBtn = view.findViewById(R.id.fabAddNew);
         newWeightBtn.setOnClickListener(v -> {
-            NewWeightDialogFragment df = new NewWeightDialogFragment();
+            NewWeightDialogFragment df = new NewWeightDialogFragment(viewModel);
             df.show(getActivity().getSupportFragmentManager(), TAG);
         });
     }
@@ -80,13 +81,14 @@ public class Tab1 extends Fragment {
         Context context = getActivity();
         TableLayout tableLayout = view.findViewById(R.id.tableLayout1);
 
-        for (int i = 0; i < weights.getValue().size() - 1; i++) {
+        for (int i = 0; i < weights.getValue().size(); i++) {
             TableRow tableRow = new TableRow(context);
             WeightMeasurement wm = weights.getValue().get(i);
 
             TextView textViewDate = new TextView(context);
             setStyling(textViewDate);
-            textViewDate.setText(wm.getDate().toString());
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM-dd-yyyy");
+            textViewDate.setText(sdf.format(wm.getDate()));
             tableRow.addView(textViewDate);
 
             TextView textViewWeight = new TextView(context);

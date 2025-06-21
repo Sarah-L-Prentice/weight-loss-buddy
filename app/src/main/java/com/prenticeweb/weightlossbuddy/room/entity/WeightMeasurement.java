@@ -6,9 +6,6 @@ import androidx.room.PrimaryKey;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Entity
 public class WeightMeasurement {
 
