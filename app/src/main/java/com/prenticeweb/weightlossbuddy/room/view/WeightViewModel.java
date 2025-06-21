@@ -5,11 +5,13 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.prenticeweb.weightlossbuddy.room.WeightDatabase;
 import com.prenticeweb.weightlossbuddy.room.entity.WeightMeasurement;
 import com.prenticeweb.weightlossbuddy.room.repository.WeightRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WeightViewModel extends AndroidViewModel {
