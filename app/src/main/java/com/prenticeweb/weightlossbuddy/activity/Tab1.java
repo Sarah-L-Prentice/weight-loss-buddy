@@ -1,8 +1,5 @@
 package com.prenticeweb.weightlossbuddy.activity;
 
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,8 +7,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -20,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,22 +24,14 @@ import com.prenticeweb.weightlossbuddy.room.view.WeightViewModel;
 import com.prenticeweb.weightlossbuddy.unit.Unit;
 import com.prenticeweb.weightlossbuddy.unit.weight.Kilogram;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
 
 
 public class Tab1 extends Fragment {
     private static final String TAG = "Fragment1";
-
-    private DatePickerDialog datePicker;
-    private Button dateButton;
     private WeightViewModel viewModel;
     LiveData<List<WeightMeasurement>> weights;
-
-    SimpleDateFormat sdf = new SimpleDateFormat("MMM-dd-yyyy");
 
     private Function<WeightMeasurement, Unit> getUnit = (WeightMeasurement wm) -> new Kilogram(wm.getWeightKg());
 
@@ -66,20 +52,23 @@ public class Tab1 extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        weights = viewModel.getReadAll();
-        weights.observe(getViewLifecycleOwner(), new Observer<List<WeightMeasurement>>() {
-            @Override
-            public void onChanged(List<WeightMeasurement> weightMeasurements) {
-//                initTableView(view);
-            }
-        });
+        initData();
         initTableView(view);
+        initAddNewButton(view);
+    }
+
+    private void initData() {
+        weights = viewModel.getReadAll();
+        weights.observe(getViewLifecycleOwner(), weightMeasurements -> {
+//                initTableView(view);
+        });
+    }
+
+    private void initAddNewButton(View view) {
         FloatingActionButton newWeightBtn = view.findViewById(R.id.fabAddNew);
-        newWeightBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog();
-            }
+        newWeightBtn.setOnClickListener(v -> {
+            NewWeightDialogFragment df = new NewWeightDialogFragment();
+            df.show(getActivity().getSupportFragmentManager(), TAG);
         });
     }
 
@@ -119,61 +108,6 @@ public class Tab1 extends Fragment {
 
             tableLayout.addView(tableRow);
         }
-    }
-
-    private void showDialog() {
-        Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.custom_dialog_enter_weight);
-        dialog.show();
-        initDatePicker();
-        dateButton = dialog.findViewById(R.id.dateButton);
-        dateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDatePicker(view);
-            }
-        });
-
-        dateButton.setText(sdf.format(getTodayDate()));
-
-        Button saveButton = dialog.findViewById(R.id.save);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Save to DB
-
-                // close dialog
-                dialog.dismiss();
-            }
-        });
-    }
-
-    private void initDatePicker() {
-        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.YEAR, year);
-                cal.set(Calendar.MONTH, month);
-                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                Date date = cal.getTime();
-                dateButton.setText(sdf.format(date));
-            }
-        };
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        datePicker = new DatePickerDialog(this.getActivity(), AlertDialog.THEME_HOLO_LIGHT, dateSetListener, year, month, day);
-    }
-
-    private Date getTodayDate() {
-        Calendar cal = Calendar.getInstance();
-        return cal.getTime();
-    }
-
-    public void openDatePicker(View view) {
-        datePicker.show();
     }
 
     private void setStyling(TextView textView) {
