@@ -16,20 +16,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.prenticeweb.weightlossbuddy.R;
 import com.prenticeweb.weightlossbuddy.room.entity.WeightMeasurement;
-import com.prenticeweb.weightlossbuddy.room.view.WeightViewModel;
 import com.prenticeweb.weightlossbuddy.unit.Unit;
 import com.prenticeweb.weightlossbuddy.unit.weight.Kilogram;
 
-import java.util.List;
+import java.math.BigDecimal;
 import java.util.function.Function;
 
 
 public class Tab1 extends Fragment {
-    private Button newWeightBtn;
     private static final String TAG = "Fragment1";
 //    private WeightViewModel viewModel;
 //    LiveData<List<WeightMeasurement>> weights;
@@ -61,7 +59,7 @@ public class Tab1 extends Fragment {
 //            }
 //        });
         initTableView(view);
-        this.newWeightBtn = view.findViewById(R.id.newWeightRecord);
+        FloatingActionButton newWeightBtn = view.findViewById(R.id.fabAddNew);
         newWeightBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -96,6 +94,18 @@ public class Tab1 extends Fragment {
 //            textViewWeight.setText(getUnit.apply(wm).getFormattedUnit());
             textViewWeight.setText(weightArr[i]);
             tableRow.addView(textViewWeight);
+
+            TextView textViewGainLossSince = new TextView(context);
+            setStyling(textViewGainLossSince);
+            String lossOrGainSince = i == 0 ? "N/A" : new BigDecimal(weightArr[i]).subtract(new BigDecimal(weightArr[i-1])).toString();
+            textViewGainLossSince.setText(lossOrGainSince);
+            tableRow.addView(textViewGainLossSince);
+
+            TextView textViewTotal = new TextView(context);
+            setStyling(textViewTotal);
+            String total = i == 0 ? "N/A" : new BigDecimal(weightArr[i]).subtract(new BigDecimal(weightArr[0])).toString();
+            textViewTotal.setText(total);
+            tableRow.addView(textViewTotal);
 
             tableLayout.addView(tableRow);
         }
