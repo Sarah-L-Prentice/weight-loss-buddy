@@ -36,16 +36,21 @@ dependencies {
     implementation libs.activity
     implementation libs.constraintLayout
     implementation libs.commonsLang3
+    implementation 'com.google.guava:guava:33.4.8-android'
+    implementation "androidx.room:room-runtime:2.7.1"
+    implementation("androidx.room:room-guava:2.7.1")
+
+    annotationProcessor "androidx.room:room-compiler:2.7.1"
+    annotationProcessor 'org.projectlombok:lombok:1.18.38'
+
+    compileOnly 'org.projectlombok:lombok:1.18.38'
+
     testImplementation libs.junitJupiter
     testImplementation libs.assertJ
+
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
-//    annotationProcessor libs.plugins.roomCompiler
-    annotationProcessor "androidx.room:room-compiler:2.7.1"
-    implementation "androidx.room:room-runtime:2.7.1"
-//    annotationProcessor libs.plugins.lombok
-    compileOnly 'org.projectlombok:lombok:1.18.38'
-    annotationProcessor 'org.projectlombok:lombok:1.18.38'
+
 }
 
 

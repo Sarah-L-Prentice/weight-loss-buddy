@@ -1,24 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-
-    <EditText
-        android:id="@+id/editTextNumberDecimal2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:gravity="right"
-        android:hint="@string/lb"
-        android:inputType="numberDecimal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.477"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumberDecimal" />
 
     <Button
         android:id="@+id/dateButton"
@@ -28,14 +12,13 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="date"
-        android:onClick="openDatePicker"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextNumberDecimal"
+        android:id="@+id/kgNumberDecimal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -49,7 +32,48 @@
         app:layout_constraintTop_toBottomOf="@+id/dateButton" />
 
     <EditText
-        android:id="@+id/editTextNumberDecimal3"
+        android:id="@+id/lbNumberDecimal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:gravity="right"
+        android:hint="@string/lb"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.477"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/kgNumberDecimal" />
+
+    <EditText
+        android:id="@+id/stoneNumber"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:gravity="right"
+        android:hint="@string/stone"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbNumberDecimal" />
+
+    <TextView
+        android:id="@+id/editTextText2"
+        android:layout_width="54dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="text"
+        android:text="@string/and"
+        app:layout_constraintEnd_toStartOf="@+id/lbsNumberDecimal"
+        app:layout_constraintHorizontal_bias="0.55"
+        app:layout_constraintStart_toEndOf="@+id/stoneNumber"
+        app:layout_constraintTop_toBottomOf="@+id/lbNumberDecimal" />
+
+    <EditText
+        android:id="@+id/lbsNumberDecimal"
         android:layout_width="70dp"
         android:layout_height="50dp"
         android:layout_marginTop="28dp"
@@ -59,22 +83,8 @@
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.422"
-        app:layout_constraintStart_toEndOf="@+id/editTextNumber"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumberDecimal2" />
-
-    <EditText
-        android:id="@+id/editTextText2"
-        android:layout_width="54dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:gravity="center"
-        android:inputType="text"
-        android:text="@string/and"
-        app:layout_constraintEnd_toStartOf="@+id/editTextNumberDecimal3"
-        app:layout_constraintHorizontal_bias="0.55"
-        app:layout_constraintStart_toEndOf="@+id/editTextNumber"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumberDecimal2" />
+        app:layout_constraintStart_toEndOf="@+id/stoneNumber"
+        app:layout_constraintTop_toBottomOf="@+id/lbNumberDecimal" />
 
     <Button
         android:id="@+id/save"
@@ -85,20 +95,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumberDecimal3" />
-
-    <EditText
-        android:id="@+id/editTextNumber"
-        android:layout_width="70dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="28dp"
-        android:ems="10"
-        android:gravity="right"
-        android:hint="@string/stone"
-        android:inputType="number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumberDecimal2" />
-
+        app:layout_constraintTop_toBottomOf="@+id/lbsNumberDecimal" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

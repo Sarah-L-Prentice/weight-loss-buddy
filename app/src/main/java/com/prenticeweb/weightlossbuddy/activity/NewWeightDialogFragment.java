@@ -4,14 +4,22 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.prenticeweb.weightlossbuddy.R;
+import com.prenticeweb.weightlossbuddy.calculations.WeightConverter;
+import com.prenticeweb.weightlossbuddy.unit.weight.Kilogram;
+import com.prenticeweb.weightlossbuddy.unit.weight.Pound;
+import com.prenticeweb.weightlossbuddy.unit.weight.StoneAndPounds;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -20,6 +28,14 @@ public class NewWeightDialogFragment extends AppCompatDialogFragment {
 
     private DatePickerDialog datePicker;
     private Button dateButton;
+
+    private EditText kgEditText;
+    private TextWatcher kgEditTextWatcher;
+    private EditText lbEditText;
+    private TextWatcher lbEditTextWatcher;
+    private EditText stoneEditText;
+    private EditText lbsEditText;
+
     private SimpleDateFormat sdf = new SimpleDateFormat("MMM-dd-yyyy");
 
     @Override
@@ -27,27 +43,80 @@ public class NewWeightDialogFragment extends AppCompatDialogFragment {
         Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.custom_dialog_enter_weight);
         initDatePicker();
-        dateButton = dialog.findViewById(R.id.dateButton);
-        dateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDatePicker(view);
-            }
-        });
+        initDateButton(dialog);
+        initKgText(dialog);
+        initLbText(dialog);
 
-        dateButton.setText(sdf.format(getTodayDate()));
+        stoneEditText = dialog.findViewById(R.id.stoneNumber);
+        lbsEditText = dialog.findViewById(R.id.lbsNumberDecimal);
 
         Button saveButton = dialog.findViewById(R.id.save);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Save to DB
+        saveButton.setOnClickListener(v -> {
+            // Save to DB
 
-                // close dialog
-                dialog.dismiss();
-            }
+            // close dialog
+            dialog.dismiss();
         });
         return dialog;
+    }
+
+    private void initKgText(Dialog dialog) {
+        kgEditText = dialog.findViewById(R.id.kgNumberDecimal);
+        kgEditTextWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Kilogram kg = new Kilogram(new BigDecimal(s.toString()));
+                Pound pound = WeightConverter.convertKgToLb(kg);
+                StoneAndPounds stoneAndPounds = WeightConverter.convertKgToStoneAndPounds(kg);
+                setTextSilently(lbEditText, lbEditTextWatcher, pound.getScaledUnit());
+                stoneEditText.setText(stoneAndPounds.getQuantity().toString());
+                lbsEditText.setText(stoneAndPounds.getMinorUnit().getScaledUnit());
+            }
+        };
+        kgEditText.addTextChangedListener(kgEditTextWatcher);
+    }
+
+    private void initLbText(Dialog dialog) {
+        lbEditText = dialog.findViewById(R.id.lbNumberDecimal);
+        lbEditTextWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Pound pound = new Pound(new BigDecimal(s.toString()));
+                Kilogram kg = WeightConverter.convertLbToKg(pound);
+                StoneAndPounds stoneAndPounds = WeightConverter.convertPoundsToStoneAndPounds(pound);
+
+                setTextSilently(kgEditText, kgEditTextWatcher, kg.getScaledUnit());
+                stoneEditText.setText(stoneAndPounds.getQuantity().toString());
+                lbsEditText.setText(stoneAndPounds.getMinorUnit().getScaledUnit());
+            }
+        };
+        lbEditText.addTextChangedListener(lbEditTextWatcher);
+    }
+
+    private void initDateButton(Dialog dialog) {
+        dateButton = dialog.findViewById(R.id.dateButton);
+        dateButton.setOnClickListener(view -> openDatePicker(view));
+        dateButton.setText(sdf.format(getTodayDate()));
     }
 
     private void initDatePicker() {
@@ -76,5 +145,11 @@ public class NewWeightDialogFragment extends AppCompatDialogFragment {
 
     public void openDatePicker(View view) {
         datePicker.show();
+    }
+
+    private static void setTextSilently(EditText editText, TextWatcher textWatcher, CharSequence text) {
+        editText.removeTextChangedListener(textWatcher); //remove watcher temporarily
+        editText.setText(text); //set text
+        editText.addTextChangedListener(textWatcher); //re-adding watcher
     }
 }

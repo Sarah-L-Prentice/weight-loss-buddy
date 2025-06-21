@@ -18,11 +18,19 @@ public abstract class Unit {
     protected abstract int getDefaultScale();
 
     public String getFormattedUnit(int scale) {
-        return StringUtils.join(quantity.setScale(scale, DEFAULT_ROUNDING_MODE), getUnitNameShorthand());
+        return StringUtils.join(getScaledUnit(scale), getUnitNameShorthand());
     }
 
     public String getFormattedUnit(){
         return getFormattedUnit(getDefaultScale());
+    }
+
+    public String getScaledUnit() {
+        return quantity.setScale(getDefaultScale(), DEFAULT_ROUNDING_MODE).toString();
+    }
+
+    public String getScaledUnit(int scale) {
+        return quantity.setScale(scale, DEFAULT_ROUNDING_MODE).toString();
     }
 
     public BigDecimal getQuantity() {

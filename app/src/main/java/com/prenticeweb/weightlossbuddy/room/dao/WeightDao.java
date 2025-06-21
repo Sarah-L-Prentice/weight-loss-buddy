@@ -8,6 +8,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.prenticeweb.weightlossbuddy.room.entity.WeightMeasurement;
 
 import java.util.List;
@@ -19,10 +20,10 @@ public interface WeightDao {
     void insertWeight(WeightMeasurement weightMeasurement);
 
     @Update
-    int updateWeight(WeightMeasurement weightMeasurement);
+    ListenableFuture<Integer> updateWeight(WeightMeasurement weightMeasurement);
 
     @Delete
-    int deleteWeight(WeightMeasurement weightMeasurement);
+    ListenableFuture<Integer> deleteWeight(WeightMeasurement weightMeasurement);
 
     @Query("SELECT * FROM WeightMeasurement ORDER BY DATE ASC")
     LiveData<List<WeightMeasurement>> getWeightsOrderedByDate();

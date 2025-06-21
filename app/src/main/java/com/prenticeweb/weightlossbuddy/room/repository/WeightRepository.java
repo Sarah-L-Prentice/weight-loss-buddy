@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.prenticeweb.weightlossbuddy.room.dao.WeightDao;
 import com.prenticeweb.weightlossbuddy.room.entity.WeightMeasurement;
 
@@ -21,10 +22,10 @@ public class WeightRepository {
     public void insertWeight(WeightMeasurement weightMeasurement) {
         dao.insertWeight(weightMeasurement);
     }
-    public int updateWeight(WeightMeasurement weightMeasurement) {
+    public ListenableFuture<Integer> updateWeight(WeightMeasurement weightMeasurement) {
         return dao.updateWeight(weightMeasurement);
     }
-    public int deleteWeight(WeightMeasurement weightMeasurement) {
+    public ListenableFuture<Integer> deleteWeight(WeightMeasurement weightMeasurement) {
         return dao.deleteWeight(weightMeasurement);
     }
     public LiveData<List<WeightMeasurement>> getWeightsOrderedByDate() {
