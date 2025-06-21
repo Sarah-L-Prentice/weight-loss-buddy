@@ -3,10 +3,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="kg">KG</string>
     <string name="lb">LB</string>
-    <string name="stone_and_lbs">Stone and lb</string>
+    <string name="stone">Stone</string>
     <string name="navigate_to_weight_tracker_screen">Go to weight tracker</string>
     <string name="date">Date</string>
     <string name="weight">Weight</string>
     <string name="total_since">Loss/gain since last weigh in</string>
     <string name="total_overall">Total loss/gain</string>
+    <string name="save">Save</string>
+    <string name="and">and</string>
 </resources>
