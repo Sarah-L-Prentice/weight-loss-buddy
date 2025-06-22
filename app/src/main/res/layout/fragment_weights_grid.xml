@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.Tab1">
+
+
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/mainGrid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="14dp"
+        app:alignmentMode="alignMargins"
+        app:columnCount="5"
+        app:columnOrderPreserved="true">
+
+        <TextView
+            android:id="@+id/textViewDate"
+            android:layout_width="89dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/date"
+            android:textSize="20dp"
+            app:layout_column="0"
+            app:layout_row="0" />
+
+        <TextView
+            android:id="@+id/textViewWeight"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/weight"
+            android:textSize="20dp"
+            app:layout_column="1"
+            app:layout_row="0" />
+
+        <TextView
+            android:id="@+id/textViewTotalSince"
+            android:layout_width="81dp"
+            android:layout_height="148dp"
+            android:gravity="center"
+            android:text="@string/total_since"
+            android:textSize="20dp"
+            app:layout_column="2"
+            app:layout_row="0" />
+
+        <TextView
+            android:id="@+id/textViewTotalOverall"
+            android:layout_width="78dp"
+            android:layout_height="101dp"
+            android:gravity="center"
+            android:text="@string/total_overall"
+            android:textSize="20dp"
+            app:layout_column="3"
+            app:layout_row="0" />
+
+        <TextView
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="20dp"
+            app:layout_column="4"
+            app:layout_row="0" />
+
+    </androidx.gridlayout.widget.GridLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddNew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="end|bottom"
+        android:layout_marginStart="326dp"
+        android:layout_marginTop="647dp"
+        android:layout_marginEnd="29dp"
+        android:layout_marginBottom="28dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_input_add"
+        android:tint="@color/primary"
+        app:elevation="6dp" />
+
+
+</RelativeLayout>

@@ -11,6 +11,7 @@ junitJupiter = "5.7.0"
 assertJ = "4.0.0-M1"
 #room = "2.7.1"
 lombok = "1.18.38"
+gridlayout = "1.1.0"
 
 [libraries]
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -22,6 +23,7 @@ constraintLayout = { group = "androidx.constraintlayout", name = "constraintlayo
 commonsLang3 = { group = "org.apache.commons", name = "commons-lang3", version.ref = "commonsLang3" }
 junitJupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter"}
 assertJ = { group = "org.assertj", name = "assertj-core", version.ref = "assertJ"}
+gridlayout = { group = "androidx.gridlayout", name = "gridlayout", version.ref = "gridlayout" }
 #room = { group = "androidx.room", name = "room-ktx", version.ref = "room"}
 
 

@@ -39,6 +39,7 @@ dependencies {
     implementation 'com.google.guava:guava:33.4.8-android'
     implementation "androidx.room:room-runtime:2.7.1"
     implementation("androidx.room:room-guava:2.7.1")
+    implementation libs.gridlayout
 
     annotationProcessor "androidx.room:room-compiler:2.7.1"
     annotationProcessor 'org.projectlombok:lombok:1.18.38'
