@@ -31,12 +31,15 @@ import java.util.List;
 import java.util.function.Function;
 
 
-public class Tab1 extends Fragment {
-    private static final String TAG = "Fragment1";
+public class ViewWeightMeasurementsFragment extends Fragment {
+    private static final String TAG = "ViewWeightMeasurementsFragment";
     private WeightViewModel viewModel;
     LiveData<List<WeightMeasurement>> weights;
+    private final Function<WeightMeasurement, Unit> getUnit;
 
-    private Function<WeightMeasurement, Unit> getUnit = (WeightMeasurement wm) -> new Kilogram(wm.getWeightKg());
+    public ViewWeightMeasurementsFragment(Function<WeightMeasurement, Unit> getUnit) {
+        this.getUnit = getUnit;
+    }
 
 
     @Override
@@ -118,7 +121,7 @@ public class Tab1 extends Fragment {
             setStyling(textViewGainLossSince);
             var params3 = getLayoutParams(2, rowRef);
             textViewGainLossSince.setLayoutParams(params3);
-            String lossOrGainSince = i == 0 ? "N/A" : getUnit.apply(wm).getQuantity().subtract(getUnit.apply(weights.getValue().get(i - 1)).getQuantity()).toString();
+            String lossOrGainSince = i == 0 ? "N/A" : getUnit.apply(wm).subtract(getUnit.apply(weights.getValue().get(i - 1))).getFormattedUnit();
             textViewGainLossSince.setText(lossOrGainSince);
             gridLayout.addView(textViewGainLossSince, rowRef);
 
@@ -126,7 +129,7 @@ public class Tab1 extends Fragment {
             setStyling(textViewTotal);
             var params4 = getLayoutParams(3, rowRef);
             textViewTotal.setLayoutParams(params4);
-            String total = i == 0 ? "N/A" : getUnit.apply(wm).getQuantity().subtract(getUnit.apply(weights.getValue().get(0)).getQuantity()).toString();
+            String total = i == 0 ? "N/A" : getUnit.apply(wm).subtract(getUnit.apply(weights.getValue().get(0))).getFormattedUnit();
             textViewTotal.setText(total);
             gridLayout.addView(textViewTotal, rowRef);
 
@@ -164,6 +167,9 @@ public class Tab1 extends Fragment {
         textView.setGravity(Gravity.CENTER);
         textView.setTextColor(Color.BLACK);
         textView.setTextSize(14);
+        GridLayout.LayoutParams param = new GridLayout.LayoutParams();
+        param.setGravity(Gravity.CENTER);
+        textView.setLayoutParams(param);
     }
 
 }
