@@ -26,6 +26,7 @@ import com.prenticeweb.weightlossbuddy.unit.Unit;
 import com.prenticeweb.weightlossbuddy.unit.weight.Kilogram;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -81,14 +82,16 @@ public class Tab1 extends Fragment {
 
         Context context = getActivity();
         GridLayout gridLayout = view.findViewById(R.id.mainGrid);
+        List<View> toRemove = new ArrayList<>();
         if (gridLayout.getChildCount() > 5) {
             for (int i = 0; i < gridLayout.getChildCount(); i++) {
                 View vw = gridLayout.getChildAt(i);
                 int id = vw.getId();
                 if(id == -1) {
-                    gridLayout.removeView(vw);
+                    toRemove.add(vw);
                 }
             }
+            toRemove.stream().forEach(vw -> gridLayout.removeView(vw));
             gridLayout.invalidate();
         }
 
