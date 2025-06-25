@@ -121,7 +121,7 @@ public class ViewWeightMeasurementsFragment extends Fragment {
             setStyling(textViewGainLossSince);
             var params3 = getLayoutParams(2, rowRef);
             textViewGainLossSince.setLayoutParams(params3);
-            String lossOrGainSince = i == 0 ? "N/A" : getUnit.apply(wm).subtract(getUnit.apply(weights.getValue().get(i - 1))).getFormattedUnit();
+            String lossOrGainSince = i == 0 ? "N/A" : getUnit.apply(wm).subtract(getUnit.apply(weights.getValue().get(i - 1))).getSignedFormattedUnit();
             textViewGainLossSince.setText(lossOrGainSince);
             gridLayout.addView(textViewGainLossSince, rowRef);
 
@@ -129,7 +129,7 @@ public class ViewWeightMeasurementsFragment extends Fragment {
             setStyling(textViewTotal);
             var params4 = getLayoutParams(3, rowRef);
             textViewTotal.setLayoutParams(params4);
-            String total = i == 0 ? "N/A" : getUnit.apply(wm).subtract(getUnit.apply(weights.getValue().get(0))).getFormattedUnit();
+            String total = i == 0 ? "N/A" : getUnit.apply(wm).subtract(getUnit.apply(weights.getValue().get(0))).getSignedFormattedUnit();
             textViewTotal.setText(total);
             gridLayout.addView(textViewTotal, rowRef);
 

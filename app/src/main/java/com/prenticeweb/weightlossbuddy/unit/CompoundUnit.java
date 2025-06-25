@@ -38,8 +38,8 @@ public abstract class CompoundUnit<T> extends Unit {
     public <T extends Unit> T subtract(T secondUnit) {
         try {
             CompoundUnit compoundUnit = (CompoundUnit) secondUnit;
-            BigDecimal majorUnits = this.getQuantity().subtract(compoundUnit.getQuantity()).abs();
-            BigDecimal minorUnits = this.minorUnit.getQuantity().subtract(compoundUnit.getMinorUnit().getQuantity()).abs();
+            BigDecimal majorUnits = this.getQuantity().subtract(compoundUnit.getQuantity());
+            BigDecimal minorUnits = this.minorUnit.getQuantity().subtract(compoundUnit.getMinorUnit().getQuantity());
             return (T) secondUnit.getClass().getConstructor(BigDecimal.class, BigDecimal.class).newInstance(majorUnits, minorUnits);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -48,12 +48,22 @@ public abstract class CompoundUnit<T> extends Unit {
 
     @Override
     public String getFormattedUnit(int scale) {
-        return StringUtils.join(getQuantity(), getUnitNameShorthand(), " ", minorUnit.getFormattedUnit(scale));
+        String minus = "-";
+        if(minorUnit.getQuantity().compareTo(BigDecimal.ZERO) < 0 || getQuantity().compareTo(BigDecimal.ZERO) < 0 ) {
+            return StringUtils.join(minus, getQuantity().abs(), getUnitNameShorthand(), " ", minorUnit.getFormattedUnit(scale).replace("-", ""));
+        } else{
+            return StringUtils.join(getQuantity(), getUnitNameShorthand(), " ", minorUnit.getFormattedUnit(scale));
+        }
     }
 
     @Override
-    public String getFormattedUnit() {
-        return StringUtils.join(getQuantity(), getUnitNameShorthand(), " ", minorUnit.getFormattedUnit(getDefaultScaleMinorUnit()));
+    public String getSignedFormattedUnit(int scale) {
+        String amountString = getFormattedUnit(scale);
+        if(amountString.contains("-")) {
+            return amountString;
+        } else {
+            return "+" + amountString;
+        }
     }
 
     public Unit getMinorUnit() {

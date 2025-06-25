@@ -27,6 +27,15 @@ public abstract class Unit {
         return getFormattedUnit(getDefaultScale());
     }
 
+    public String getSignedFormattedUnit(int scale) {
+        String sign = quantity.compareTo(BigDecimal.ZERO) > 0 ? "+" : "";
+        return sign + getFormattedUnit(scale);
+    }
+
+    public String getSignedFormattedUnit() {
+        return getSignedFormattedUnit(getDefaultScale());
+    }
+
     public String getScaledUnit() {
         return quantity.setScale(getDefaultScale(), DEFAULT_ROUNDING_MODE).toString();
     }
@@ -41,7 +50,7 @@ public abstract class Unit {
 
     public <T extends Unit> T subtract(T secondUnit) {
         try {
-            BigDecimal amount = this.getQuantity().subtract(secondUnit.getQuantity()).abs();
+            BigDecimal amount = this.getQuantity().subtract(secondUnit.getQuantity());
             return (T) secondUnit.getClass().getConstructor(BigDecimal.class).newInstance(amount);
         } catch (Exception e) {
             throw new RuntimeException(e);

@@ -46,4 +46,26 @@ public abstract class UnitBaseTest {
         Unit classToTest = getUnitToTest(amount);
         assertThat(classToTest.getFormattedUnit(scale)).isEqualTo(expectedReturnVal + getExpectedShorthandUnit());
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "-10.230123, -10.23",
+            " 10.239876, +10.24"
+    })
+    void getSignedFormattedUnit(BigDecimal amount, String expected) {
+        Unit classToTest = getUnitToTest(amount);
+        assertThat(classToTest.getSignedFormattedUnit()).isEqualTo(expected + getExpectedShorthandUnit());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "-10.230123, 2, -10.23",
+            "-10.230123, 4, -10.2301",
+            " 10.239876, 2, +10.24",
+            " 10.239876, 4, +10.2399"
+    })
+    void getSignedFormattedUnit(BigDecimal amount, int scale, String expected) {
+        Unit classToTest = getUnitToTest(amount);
+        assertThat(classToTest.getSignedFormattedUnit(scale)).isEqualTo(expected + getExpectedShorthandUnit());
+    }
 }
