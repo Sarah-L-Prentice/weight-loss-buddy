@@ -108,5 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setLabelRotationAngle(90f);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(xValues));
+        chart.notifyDataSetChanged();
+        chart.invalidate();
     }
 }
