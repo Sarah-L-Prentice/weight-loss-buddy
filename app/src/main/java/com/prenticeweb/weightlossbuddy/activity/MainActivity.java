@@ -2,6 +2,7 @@ package com.prenticeweb.weightlossbuddy.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -19,6 +20,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.ekn.gruzer.gaugelibrary.HalfGauge;
+import com.ekn.gruzer.gaugelibrary.Range;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
@@ -35,11 +38,14 @@ import com.prenticeweb.weightlossbuddy.R;
 import com.prenticeweb.weightlossbuddy.room.entity.WeightMeasurement;
 import com.prenticeweb.weightlossbuddy.room.view.WeightViewModel;
 
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import lombok.val;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -62,8 +68,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this, ScreenSliderPagerActivity.class);
-        startActivity(intent);
+        if(v.getId() == R.id.cardViewBMI) {
+            Intent intent = new Intent(this, BMIActivity.class);
+            startActivity(intent);
+        } else if (v.getId() == R.id.cardViewCurrentWeight) {
+            Intent intent = new Intent(this, ScreenSliderPagerActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void initData() {

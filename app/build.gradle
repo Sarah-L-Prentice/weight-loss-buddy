@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-//    alias(libs.plugins.roomCompiler)
 }
 
 android {
@@ -41,6 +40,7 @@ dependencies {
     implementation("androidx.room:room-guava:2.7.1")
     implementation libs.gridlayout
     implementation 'com.github.PhilJay:MPAndroidChart:3.1.0'
+    implementation 'com.github.Gruzer:simple-gauge-android:0.3.1'
 
     annotationProcessor "androidx.room:room-compiler:2.7.1"
     annotationProcessor 'org.projectlombok:lombok:1.18.38'

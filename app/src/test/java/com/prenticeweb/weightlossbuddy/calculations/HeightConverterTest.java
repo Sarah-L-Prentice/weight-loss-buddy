@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.prenticeweb.weightlossbuddy.unit.height.Centimetre;
 import com.prenticeweb.weightlossbuddy.unit.height.FeetAndInches;
 import com.prenticeweb.weightlossbuddy.unit.height.Inch;
+import com.prenticeweb.weightlossbuddy.unit.height.Metre;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -13,6 +14,32 @@ import org.junit.jupiter.params.provider.CsvSource;
 import java.math.BigDecimal;
 
 class HeightConverterTest {
+
+    @ParameterizedTest
+    @CsvSource({
+            "183, 1.83000000000000",
+            "100, 1.00000000000000",
+            "50 , 0.50000000000000"
+    })
+    void convertCmToMetres(BigDecimal inputQuantity, BigDecimal expectedQuantity) {
+        Centimetre input = new Centimetre(inputQuantity);
+        Metre expected = new Metre(expectedQuantity);
+        Metre result = HeightConverter.convertCentimetreToMetres(input);
+        assertThat(result.getQuantity()).isEqualTo(expected.getQuantity());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "1.83, 183.00",
+            "1.00, 100.00",
+            "0.50 , 50.00"
+    })
+    void convertMetresToCm(BigDecimal inputQuantity, BigDecimal expectedQuantity) {
+        Metre input = new Metre(inputQuantity);
+        Centimetre expected = new Centimetre(expectedQuantity);
+        Centimetre result = HeightConverter.convertMetreToCentimetre(input);
+        assertThat(result.getQuantity()).isEqualTo(expected.getQuantity());
+    }
 
     @ParameterizedTest
     @CsvSource({
