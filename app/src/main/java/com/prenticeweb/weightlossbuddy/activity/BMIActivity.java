@@ -1,5 +1,6 @@
 package com.prenticeweb.weightlossbuddy.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -70,7 +71,7 @@ public class BMIActivity extends AppCompatActivity {
         Range morbidlyObese = new Range();
         morbidlyObese.setColor(R.color.morbidlyObese);
         morbidlyObese.setFrom(39.9);
-        morbidlyObese.setTo(300);
+        morbidlyObese.setTo(45);
 
         HalfGauge halfGauge = findViewById(R.id.halfGauge);
         halfGauge.addRange(underWeightRange);
@@ -80,7 +81,10 @@ public class BMIActivity extends AppCompatActivity {
         halfGauge.addRange(severelyObese);
         halfGauge.addRange(morbidlyObese);
 
+
         //set min max and current value
+        halfGauge.setMaxValueTextColor(R.color.black);
+        halfGauge.setMinValueTextColor(R.color.black);
         BigDecimal currentWeightKg = weights.getValue().get(weights.getValue().size()-1).getWeightKg();
         halfGauge.setMinValue(0);
         halfGauge.setMaxValue(45); //TODO set to 45 if BMi is less than 45 else BMI plus 5

@@ -6,11 +6,11 @@
     <color name="accent">#78888A</color>
     <color name="primary">#737883</color>
     <color name="primaryDark">#637087</color>
-    <color name="underweight">#0009DFF0</color>
-    <color name="normal">#0006ED46</color>
-    <color name="overweight">#00D9FA07</color>
-    <color name="obese">#00FA7807</color>
-    <color name="severelyObese">#00ED0505</color>
-    <color name="morbidlyObese">#00020000</color>
+    <color name="underweight">#0086CE</color>
+    <color name="normal">#09FF22</color>
+    <color name="overweight">#FFF309</color>
+    <color name="obese">#FF5309</color>
+    <color name="severelyObese">#ce0000</color>
+    <color name="morbidlyObese">#A036A0</color>
     <color name="transparent">#00044BC5</color>
 </resources>

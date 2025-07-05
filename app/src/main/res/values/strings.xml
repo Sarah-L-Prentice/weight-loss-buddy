@@ -13,4 +13,10 @@
     <string name="and">and</string>
     <string name="delete">Delete</string>
     <string name="target_weight">Target Weight</string>
+    <string name="underweight">Underweight: Below 18.5</string>
+    <string name="normal_weight">Normal weight: 18.5 to 24.9</string>
+    <string name="overweight">Overweight: 25 to 29.9</string>
+    <string name="obese">Obese: 30 to 34.9</string>
+    <string name="severely_obese">Severely Obese: 35 to 40</string>
+    <string name="morbidly_obese"><![CDATA[Morbidly Obese: > 40]]></string>
 </resources>
