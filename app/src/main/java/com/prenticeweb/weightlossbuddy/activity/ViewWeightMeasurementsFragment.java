@@ -103,39 +103,31 @@ public class ViewWeightMeasurementsFragment extends Fragment {
             int rowRef = i + 1;
 
             TextView textViewDate = new TextView(context);
-            setStyling(textViewDate);
-            var params1 = getLayoutParams(0, rowRef);
-            textViewDate.setLayoutParams(params1);
+            setStyling(textViewDate,0, rowRef);
             SimpleDateFormat sdf = new SimpleDateFormat("MMM-dd-yyyy");
             textViewDate.setText(sdf.format(wm.getDate()));
             gridLayout.addView(textViewDate, rowRef);
 
             TextView textViewWeight = new TextView(context);
-            setStyling(textViewWeight);
-            var params2 = getLayoutParams(1, rowRef);
-            textViewWeight.setLayoutParams(params2);
+            setStyling(textViewWeight,1, rowRef);
             textViewWeight.setText(getUnit.apply(wm).getFormattedUnit());
             gridLayout.addView(textViewWeight, rowRef);
 
             TextView textViewGainLossSince = new TextView(context);
-            setStyling(textViewGainLossSince);
-            var params3 = getLayoutParams(2, rowRef);
-            textViewGainLossSince.setLayoutParams(params3);
+            setStyling(textViewGainLossSince, 2, rowRef);
             String lossOrGainSince = i == 0 ? "N/A" : getUnit.apply(wm).subtract(getUnit.apply(weights.getValue().get(i - 1))).getSignedFormattedUnit();
             textViewGainLossSince.setText(lossOrGainSince);
             gridLayout.addView(textViewGainLossSince, rowRef);
 
             TextView textViewTotal = new TextView(context);
-            setStyling(textViewTotal);
-            var params4 = getLayoutParams(3, rowRef);
-            textViewTotal.setLayoutParams(params4);
+            setStyling(textViewTotal, 3, rowRef);
             String total = i == 0 ? "N/A" : getUnit.apply(wm).subtract(getUnit.apply(weights.getValue().get(0))).getSignedFormattedUnit();
             textViewTotal.setText(total);
             gridLayout.addView(textViewTotal, rowRef);
 
             ImageButton imageButton = new ImageButton(context);
             imageButton.setBackgroundColor(ContextCompat.getColor(context, R.color.transparent));
-            imageButton.setImageResource(android.R.drawable.ic_menu_delete);
+            imageButton.setImageResource(android.R.drawable.ic_notification_clear_all);
             var params5 = getLayoutParams(4, rowRef);
             imageButton.setLayoutParams(params5);
             gridLayout.addView(imageButton, rowRef);
@@ -162,14 +154,13 @@ public class ViewWeightMeasurementsFragment extends Fragment {
         return param;
     }
 
-    private void setStyling(TextView textView) {
+    private void setStyling(TextView textView, int col, int row) {
         textView.setPadding(10, 10, 10, 10);
         textView.setGravity(Gravity.CENTER);
         textView.setTextColor(Color.BLACK);
         textView.setTextSize(14);
-        GridLayout.LayoutParams param = new GridLayout.LayoutParams();
-        param.setGravity(Gravity.CENTER);
-        textView.setLayoutParams(param);
+        GridLayout.LayoutParams params = getLayoutParams(col, row);
+        textView.setLayoutParams(params);
     }
 
 }
