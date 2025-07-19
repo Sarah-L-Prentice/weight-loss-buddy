@@ -7,7 +7,7 @@
     <string name="navigate_to_weight_tracker_screen">Go to weight tracker</string>
     <string name="date">Date</string>
     <string name="weight">Weight</string>
-    <string name="total_since">Loss/gain since last weigh in</string>
+    <string name="total_since">Latest loss/gain</string>
     <string name="total_overall">Total loss/gain</string>
     <string name="save">Save</string>
     <string name="and">and</string>

@@ -23,7 +23,6 @@ import com.prenticeweb.weightlossbuddy.R;
 import com.prenticeweb.weightlossbuddy.room.entity.WeightMeasurement;
 import com.prenticeweb.weightlossbuddy.room.view.WeightViewModel;
 import com.prenticeweb.weightlossbuddy.unit.Unit;
-import com.prenticeweb.weightlossbuddy.unit.weight.Kilogram;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -130,9 +129,11 @@ public class ViewWeightMeasurementsFragment extends Fragment {
             imageButton.setImageResource(android.R.drawable.ic_notification_clear_all);
             var params5 = getLayoutParams(4, rowRef);
             imageButton.setLayoutParams(params5);
+            imageButton.setPadding(5, 5, 5, 5);
             gridLayout.addView(imageButton, rowRef);
             imageButton.setOnClickListener(getDeleteListener(textViewDate));
         }
+        gridLayout.setRowCount(weights.getValue().size() + 1);
     }
 
     private View.OnClickListener getDeleteListener(TextView dateTextView) {
@@ -146,16 +147,14 @@ public class ViewWeightMeasurementsFragment extends Fragment {
 
     private GridLayout.LayoutParams getLayoutParams(int col, int row) {
         GridLayout.LayoutParams param = new GridLayout.LayoutParams();
-        param.height = GridLayout.LayoutParams.WRAP_CONTENT;
-        param.width = GridLayout.LayoutParams.WRAP_CONTENT;
-        param.setGravity(Gravity.CENTER);
-        param.columnSpec = GridLayout.spec(col);
-        param.rowSpec = GridLayout.spec(row);
+        param.setGravity(Gravity.FILL);
+        param.columnSpec = GridLayout.spec(col, 1f);
+        param.rowSpec = GridLayout.spec(row, 1f);
         return param;
     }
 
     private void setStyling(TextView textView, int col, int row) {
-        textView.setPadding(10, 10, 10, 10);
+        textView.setPadding(5, 5, 5, 5);
         textView.setGravity(Gravity.CENTER);
         textView.setTextColor(Color.BLACK);
         textView.setTextSize(14);

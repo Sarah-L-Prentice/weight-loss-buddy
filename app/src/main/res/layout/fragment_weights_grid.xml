@@ -19,52 +19,52 @@
 
         <TextView
             android:id="@+id/textViewDate"
-            android:layout_width="89dp"
-            android:layout_height="wrap_content"
+            app:layout_rowWeight="1"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill"
             android:gravity="center"
             android:text="@string/date"
             android:textSize="14dp"
-            app:layout_column="0"
-            app:layout_row="0" />
+            android:padding="5dp"/>
 
         <TextView
             android:id="@+id/textViewWeight"
-            android:layout_width="72dp"
-            android:layout_height="wrap_content"
+            app:layout_rowWeight="1"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill"
             android:gravity="center"
             android:text="@string/weight"
             android:textSize="14dp"
-            app:layout_column="1"
-            app:layout_row="0" />
+            android:padding="5dp"/>
 
         <TextView
             android:id="@+id/textViewTotalSince"
-            android:layout_width="81dp"
-            android:layout_height="148dp"
+            app:layout_rowWeight="1"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill"
             android:gravity="center"
             android:text="@string/total_since"
             android:textSize="14dp"
-            app:layout_column="2"
-            app:layout_row="0" />
+            android:padding="5dp"/>
 
         <TextView
             android:id="@+id/textViewTotalOverall"
-            android:layout_width="78dp"
-            android:layout_height="101dp"
+            app:layout_rowWeight="1"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill"
             android:gravity="center"
             android:text="@string/total_overall"
             android:textSize="14dp"
-            app:layout_column="3"
-            app:layout_row="0" />
+            android:padding="5dp"/>
 
         <TextView
             android:id="@+id/delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="top"
+            app:layout_rowWeight="1"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill"
+            android:gravity="center"
             android:textSize="14dp"
-            app:layout_column="4"
-            app:layout_row="0" />
+            android:padding="5dp"/>
 
     </androidx.gridlayout.widget.GridLayout>
 
