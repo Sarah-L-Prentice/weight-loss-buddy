@@ -25,7 +25,10 @@
             android:gravity="center"
             android:text="@string/date"
             android:textSize="14dp"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:layout_width="0dp"
+            app:layout_row="0"
+            app:layout_column="0"/>
 
         <TextView
             android:id="@+id/textViewWeight"
@@ -35,7 +38,10 @@
             android:gravity="center"
             android:text="@string/weight"
             android:textSize="14dp"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:layout_width="0dp"
+            app:layout_row="0"
+            app:layout_column="1"/>
 
         <TextView
             android:id="@+id/textViewTotalSince"
@@ -45,7 +51,10 @@
             android:gravity="center"
             android:text="@string/total_since"
             android:textSize="14dp"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:layout_width="0dp"
+            app:layout_row="0"
+            app:layout_column="2"/>
 
         <TextView
             android:id="@+id/textViewTotalOverall"
@@ -55,7 +64,10 @@
             android:gravity="center"
             android:text="@string/total_overall"
             android:textSize="14dp"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:layout_width="0dp"
+            app:layout_row="0"
+            app:layout_column="3"/>
 
         <TextView
             android:id="@+id/delete"
@@ -64,7 +76,10 @@
             app:layout_gravity="fill"
             android:gravity="center"
             android:textSize="14dp"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:layout_width="0dp"
+            app:layout_row="0"
+            app:layout_column="4"/>
 
     </androidx.gridlayout.widget.GridLayout>
 
