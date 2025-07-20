@@ -1,11 +1,14 @@
 package com.prenticeweb.weightlossbuddy.room.view;
 
+import static com.prenticeweb.weightlossbuddy.common.Constants.SIMPLE_DATE_FORMAT;
+
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.prenticeweb.weightlossbuddy.common.Constants;
 import com.prenticeweb.weightlossbuddy.room.WeightDatabase;
 import com.prenticeweb.weightlossbuddy.room.entity.WeightMeasurement;
 import com.prenticeweb.weightlossbuddy.room.repository.WeightRepository;
@@ -23,8 +26,6 @@ public class WeightViewModel extends AndroidViewModel {
     private LiveData<List<WeightMeasurement>> readAll;
 
     private WeightRepository repo;
-
-    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("MMM-dd-yyyy");
 
     public WeightViewModel(@NonNull Application application) {
         super(application);

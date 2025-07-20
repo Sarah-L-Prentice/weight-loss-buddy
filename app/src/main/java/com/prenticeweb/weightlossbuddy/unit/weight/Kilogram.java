@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 public class Kilogram extends Unit {
 
-    private static final int DEFAULT_SCALE = 2;
+    private static final int DEFAULT_SCALE = 1;
     private static final String UNIT_SHORTHAND = "kg";
 
     public Kilogram(BigDecimal quantity) {

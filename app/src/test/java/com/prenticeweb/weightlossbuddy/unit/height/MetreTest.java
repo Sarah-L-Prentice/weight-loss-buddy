@@ -1,7 +1,5 @@
 package com.prenticeweb.weightlossbuddy.unit.height;
 
-
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.prenticeweb.weightlossbuddy.unit.Unit;
@@ -12,27 +10,27 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.math.BigDecimal;
 
-public class CentimetreTest extends UnitBaseTest {
+public class MetreTest extends UnitBaseTest {
 
     @Override
     public String getExpectedShorthandUnit() {
-        return "cm";
+        return "m";
     }
 
     @Override
     public Unit getUnitToTest(BigDecimal amount) {
-        return new Centimetre(amount);
+        return new Metre(amount);
     }
 
     @Override
     @CsvSource({
-            "76.430897 , 76",
-            "76.43     , 76",
-            "120.434567, 120",
-            "120.198567, 120",
-            "120.998567, 121",
-            "167.125567, 167",
-            "167       , 167",
+            "76.430897 , 76.43",
+            "76.43     , 76.43",
+            "120.434567, 120.43",
+            "120.198567, 120.20",
+            "120.998567, 121.00",
+            "167.125567, 167.13",
+            "167       , 167.00",
     })
     protected void getFormattedUnit(BigDecimal amount, String expectedReturnVal) {
         Unit classToTest = getUnitToTest(amount);
@@ -42,11 +40,12 @@ public class CentimetreTest extends UnitBaseTest {
     @Override
     @ParameterizedTest
     @CsvSource({
-            "-10.230123, -10",
-            " 10.239876, +10"
+            "-10.230123, -10.23",
+            " 10.239876, +10.24"
     })
     protected void getSignedFormattedUnit(BigDecimal amount, String expected) {
         Unit classToTest = getUnitToTest(amount);
         assertThat(classToTest.getSignedFormattedUnit()).isEqualTo(expected + getExpectedShorthandUnit());
     }
+
 }

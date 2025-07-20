@@ -1,5 +1,7 @@
 package com.prenticeweb.weightlossbuddy.activity;
 
+import static com.prenticeweb.weightlossbuddy.common.Constants.SIMPLE_DATE_FORMAT;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -103,7 +105,7 @@ public class ViewWeightMeasurementsFragment extends Fragment {
 
             TextView textViewDate = new TextView(context);
             setStyling(textViewDate,0, rowRef);
-            SimpleDateFormat sdf = new SimpleDateFormat("MMM-dd-yyyy");
+            SimpleDateFormat sdf = SIMPLE_DATE_FORMAT;
             textViewDate.setText(sdf.format(wm.getDate()));
             gridLayout.addView(textViewDate, rowRef);
 
@@ -147,9 +149,11 @@ public class ViewWeightMeasurementsFragment extends Fragment {
 
     private GridLayout.LayoutParams getLayoutParams(int col, int row) {
         GridLayout.LayoutParams param = new GridLayout.LayoutParams();
-        param.setGravity(Gravity.FILL);
+        param.setGravity(Gravity.FILL_HORIZONTAL);
         param.columnSpec = GridLayout.spec(col, 1f);
-        param.rowSpec = GridLayout.spec(row, 1f);
+        param.rowSpec = GridLayout.spec(row);
+        param.height = 70;
+        param.width = 0;
         return param;
     }
 

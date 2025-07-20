@@ -17,15 +17,15 @@ public abstract class UnitBaseTest {
 
     @ParameterizedTest
     @CsvSource({
-            "76.430897 , 76.43",
-            "76.43     , 76.43",
-            "120.434567, 120.43",
-            "120.198567, 120.20",
-            "120.998567, 121.00",
-            "167.125567, 167.13",
-            "167       , 167.00",
+            "76.430897 , 76.4",
+            "76.43     , 76.4",
+            "120.434567, 120.4",
+            "120.198567, 120.2",
+            "120.998567, 121.0",
+            "167.125567, 167.1",
+            "167       , 167.0",
     })
-    void getFormattedUnit(BigDecimal amount, String expectedReturnVal) {
+    protected void getFormattedUnit(BigDecimal amount, String expectedReturnVal) {
         Unit classToTest = getUnitToTest(amount);
         assertThat(classToTest.getFormattedUnit()).isEqualTo(expectedReturnVal + getExpectedShorthandUnit());
     }
@@ -49,10 +49,10 @@ public abstract class UnitBaseTest {
 
     @ParameterizedTest
     @CsvSource({
-            "-10.230123, -10.23",
-            " 10.239876, +10.24"
+            "-10.230123, -10.2",
+            " 10.239876, +10.2"
     })
-    void getSignedFormattedUnit(BigDecimal amount, String expected) {
+    protected void getSignedFormattedUnit(BigDecimal amount, String expected) {
         Unit classToTest = getUnitToTest(amount);
         assertThat(classToTest.getSignedFormattedUnit()).isEqualTo(expected + getExpectedShorthandUnit());
     }

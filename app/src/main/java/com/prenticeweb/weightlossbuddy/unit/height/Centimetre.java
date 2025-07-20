@@ -17,6 +17,6 @@ public class Centimetre extends Unit {
 
     @Override
     protected int getDefaultScale() {
-        return 2;
+        return 0;
     }
 }

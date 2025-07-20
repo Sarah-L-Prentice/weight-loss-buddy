@@ -17,6 +17,6 @@ public class Inch extends Unit {
 
     @Override
     protected int getDefaultScale() {
-        return 2;
+        return 0;
     }
 }
