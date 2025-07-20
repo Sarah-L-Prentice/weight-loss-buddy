@@ -135,7 +135,6 @@ public class ViewWeightMeasurementsFragment extends Fragment {
             gridLayout.addView(imageButton, rowRef);
             imageButton.setOnClickListener(getDeleteListener(textViewDate));
         }
-        gridLayout.setRowCount(weights.getValue().size() + 1);
     }
 
     private View.OnClickListener getDeleteListener(TextView dateTextView) {

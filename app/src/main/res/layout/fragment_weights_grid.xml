@@ -7,13 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".activity.ViewWeightMeasurementsFragment">
 
-
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/mainGrid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="20dp"
-        android:padding="14dp"
+        android:padding="10dp"
         app:alignmentMode="alignMargins"
         app:columnCount="5"
         app:columnOrderPreserved="true">
@@ -83,6 +82,7 @@
             app:layout_column="4"/>
 
     </androidx.gridlayout.widget.GridLayout>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddNew"

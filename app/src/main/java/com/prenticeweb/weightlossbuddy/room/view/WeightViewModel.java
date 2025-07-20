@@ -41,7 +41,7 @@ public class WeightViewModel extends AndroidViewModel {
     public void insert(String date, String kg, String lb) {
         try {
             WeightMeasurement wm = new WeightMeasurement();
-                    wm.setDate(SIMPLE_DATE_FORMAT.parse(date.toString()));
+                    wm.setDate(SIMPLE_DATE_FORMAT.parse(date));
                     wm.setWeightKg(new BigDecimal(kg));
                     wm.setWeightLb(new BigDecimal(lb));
             performTask(() -> repo.insertWeight(wm));

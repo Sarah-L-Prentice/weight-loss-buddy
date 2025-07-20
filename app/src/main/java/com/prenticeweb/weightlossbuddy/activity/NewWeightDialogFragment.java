@@ -1,14 +1,14 @@
 package com.prenticeweb.weightlossbuddy.activity;
 
+import static com.prenticeweb.weightlossbuddy.common.Constants.SIMPLE_DATE_FORMAT;
+
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
@@ -21,7 +21,6 @@ import com.prenticeweb.weightlossbuddy.unit.weight.Pound;
 import com.prenticeweb.weightlossbuddy.unit.weight.StoneAndPounds;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -43,7 +42,6 @@ public class NewWeightDialogFragment extends AppCompatDialogFragment {
     private EditText stoneEditText;
     private EditText lbsEditText;
 
-    private SimpleDateFormat sdf = new SimpleDateFormat("MMM-dd-yyyy");
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -123,7 +121,7 @@ public class NewWeightDialogFragment extends AppCompatDialogFragment {
     private void initDateButton(Dialog dialog) {
         dateButton = dialog.findViewById(R.id.dateButton);
         dateButton.setOnClickListener(view -> openDatePicker());
-        dateButton.setText(sdf.format(getTodayDate()));
+        dateButton.setText(SIMPLE_DATE_FORMAT.format(getTodayDate()));
     }
 
     private void initDatePicker() {
@@ -133,7 +131,7 @@ public class NewWeightDialogFragment extends AppCompatDialogFragment {
             cal.set(Calendar.MONTH, month);
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             Date date = cal.getTime();
-            dateButton.setText(sdf.format(date));
+            dateButton.setText(SIMPLE_DATE_FORMAT.format(date));
         };
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
