@@ -9,8 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.drawText
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.prenticeweb.weightlossbuddy.R
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -18,53 +21,58 @@ import kotlin.math.sin
 @Composable
 fun GaugeScreen(@FloatRange(from = 0.0, to = 45.0) currentBMI: Float) {
     val modifier = Modifier.padding(90.dp).requiredSize(300.dp)
-
+    val underweightColour = colorResource(R.color.underweight);
+    val normalColour = colorResource(R.color.normal);
+    val overweightColour = colorResource(R.color.overweight);
+    val obeseColour = colorResource(R.color.obese);
+    val severelyObeseColour = colorResource(R.color.severelyObese);
+    val morbidlyObeseColour = colorResource(R.color.morbidlyObese);
     Canvas(modifier = modifier, onDraw = {
         // Draw the arc
         val strokeWidth: Float = 90.0.dp.toPx()
 
         drawArc(
-            color = Color.Magenta,
+            color = morbidlyObeseColour,
             startAngle = 0f,
-            sweepAngle = -30.0f,
+            sweepAngle = -20.4f,
             useCenter = false,
             style = Stroke(width = strokeWidth)
         )
 
         drawArc(
-            color = Color.Red,
-            startAngle = -30.0f,
-            sweepAngle = -30.0f,
+            color = severelyObeseColour,
+            startAngle = -20.4f,
+            sweepAngle = -20.0f,
             useCenter = false,
             style = Stroke(width = strokeWidth)
         )
         drawArc(
-            color = Color.Gray,
-            startAngle = -60.0f,
-            sweepAngle = -30.0f,
+            color = obeseColour,
+            startAngle = -40.4f,
+            sweepAngle = -20.0f,
             useCenter = false,
             style = Stroke(width = strokeWidth)
         )
         drawArc(
-            color = Color.Yellow,
-            startAngle = -90.0f,
-            sweepAngle = -30.0f,
-            useCenter = false,
-            style = Stroke(width = strokeWidth)
-        )
-
-        drawArc(
-            color = Color.Green,
-            startAngle = -120.0f,
-            sweepAngle = -30.0f,
+            color = overweightColour,
+            startAngle = -60.4f,
+            sweepAngle = -20.0f,
             useCenter = false,
             style = Stroke(width = strokeWidth)
         )
 
         drawArc(
-            color = Color.Cyan,
-            startAngle = -150.0f,
-            sweepAngle = -30f,
+            color = normalColour,
+            startAngle = -80.4f,
+            sweepAngle = -25.6f,
+            useCenter = false,
+            style = Stroke(width = strokeWidth)
+        )
+
+        drawArc(
+            color = underweightColour,
+            startAngle = -106.0f,
+            sweepAngle = -74f,
             useCenter = false,
             style = Stroke(width = strokeWidth)
         )
@@ -76,6 +84,7 @@ fun GaugeScreen(@FloatRange(from = 0.0, to = 45.0) currentBMI: Float) {
             cY = center.y
         )
         drawLine(color = Color.Black, start = center, end = currentBMIOffset, strokeWidth = 8.0f)
+
     })
 }
 
