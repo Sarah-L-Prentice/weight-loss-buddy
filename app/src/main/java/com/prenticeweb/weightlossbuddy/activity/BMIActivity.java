@@ -1,6 +1,5 @@
 package com.prenticeweb.weightlossbuddy.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
