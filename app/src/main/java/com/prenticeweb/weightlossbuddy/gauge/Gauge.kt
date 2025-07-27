@@ -10,9 +10,15 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.TextMeasurer
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.prenticeweb.weightlossbuddy.R
 import kotlin.math.cos
 import kotlin.math.sin
@@ -27,6 +33,7 @@ fun GaugeScreen(@FloatRange(from = 0.0, to = 45.0) currentBMI: Float) {
     val obeseColour = colorResource(R.color.obese);
     val severelyObeseColour = colorResource(R.color.severelyObese);
     val morbidlyObeseColour = colorResource(R.color.morbidlyObese);
+    val textMeasurer = rememberTextMeasurer()
     Canvas(modifier = modifier, onDraw = {
         // Draw the arc
         val strokeWidth: Float = 90.0.dp.toPx()
@@ -84,7 +91,25 @@ fun GaugeScreen(@FloatRange(from = 0.0, to = 45.0) currentBMI: Float) {
             cY = center.y
         )
         drawLine(color = Color.Black, start = center, end = currentBMIOffset, strokeWidth = 8.0f)
-
+        val textLayoutResult = textMeasurer.measure(
+            text = currentBMI.toString(),
+            style = TextStyle(
+                fontSize = 30.sp
+            )
+        )
+        val textHeight = textLayoutResult.size.height
+        val textWidth = textLayoutResult.size.width
+        val textOffset = pointOnCircle(
+            thetaInDegrees = 0.0,
+            radius = size.height / 15,
+            cX = center.x - textWidth/2,
+            cY = center.y - textHeight/2
+        )
+        drawText(
+            textLayoutResult = textLayoutResult,
+            topLeft = textOffset,
+            color = Color.Black
+        )
     })
 }
 
