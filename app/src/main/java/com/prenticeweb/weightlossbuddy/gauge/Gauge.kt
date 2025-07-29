@@ -10,13 +10,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.prenticeweb.weightlossbuddy.R
@@ -91,23 +88,43 @@ fun GaugeScreen(@FloatRange(from = 0.0, to = 45.0) currentBMI: Float) {
             cY = center.y
         )
         drawLine(color = Color.Black, start = center, end = currentBMIOffset, strokeWidth = 8.0f)
-        val textLayoutResult = textMeasurer.measure(
+        val textLayoutResultBMI = textMeasurer.measure(
             text = currentBMI.toString(),
             style = TextStyle(
                 fontSize = 30.sp
             )
         )
-        val textHeight = textLayoutResult.size.height
-        val textWidth = textLayoutResult.size.width
+        val textHeight = textLayoutResultBMI.size.height
+        val textWidth = textLayoutResultBMI.size.width
         val textOffset = pointOnCircle(
             thetaInDegrees = 0.0,
             radius = size.height / 15,
-            cX = center.x - textWidth/2,
-            cY = center.y - textHeight/2
+            cX = center.x - textWidth / 2,
+            cY = center.y - textHeight / 2
         )
         drawText(
-            textLayoutResult = textLayoutResult,
+            textLayoutResult = textLayoutResultBMI,
             topLeft = textOffset,
+            color = Color.Black
+        )
+
+        val textLayoutResultCategory = textMeasurer.measure(
+            text = getCategorization(currentBMI),
+            style = TextStyle(
+                fontSize = 30.sp
+            )
+        )
+        val textHeightCategory = textLayoutResultCategory.size.height
+        val textWidthCategory = textLayoutResultCategory.size.width
+        val textOffsetCategory = pointOnCircle(
+            thetaInDegrees = 0.0,
+            radius = size.height / 5,
+            cX = center.x - textWidthCategory / 2,
+            cY = center.y - textHeightCategory / 2
+        )
+        drawText(
+            textLayoutResult = textLayoutResultCategory,
+            topLeft = textOffsetCategory,
             color = Color.Black
         )
     })
@@ -123,6 +140,19 @@ private fun pointOnCircle(
     val y = cY + (radius * cos(Math.toRadians(thetaInDegrees)).toFloat())
 
     return Offset(x, y)
+}
+
+fun getCategorization(@FloatRange(from = 0.0, to = 45.0) currentBMI: Float): String {
+    val result = when (currentBMI) {
+        in 0.0..18.5 -> "Underweight"
+        in 18.5..24.9 -> "Normal"
+        in 24.9..29.9 -> "Overweight"
+        in 29.9..34.9 -> "Obese"
+        in 34.9..39.9 -> "Severely Obese"
+        in 39.9..45.0 -> "Morbidly Obese"
+        else -> "Unknown"
+    }
+    return result
 }
 
 @Preview(showBackground = true, showSystemUi = true)
