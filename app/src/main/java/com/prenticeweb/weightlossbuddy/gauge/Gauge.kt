@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
@@ -20,6 +21,13 @@ import com.prenticeweb.weightlossbuddy.R
 import kotlin.math.cos
 import kotlin.math.sin
 
+class Gauge
+
+fun setContent(composeView: ComposeView, currentBMI: Float){
+    composeView.setContent {
+        GaugeScreen(currentBMI)
+    }
+}
 
 @Composable
 fun GaugeScreen(@FloatRange(from = 0.0, to = 45.0) currentBMI: Float) {

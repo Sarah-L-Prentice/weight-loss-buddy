@@ -4,14 +4,17 @@ import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.compose.ui.platform.ComposeView;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.ekn.gruzer.gaugelibrary.HalfGauge;
-import com.ekn.gruzer.gaugelibrary.Range;
 import com.prenticeweb.weightlossbuddy.R;
+import com.prenticeweb.weightlossbuddy.calculations.BMICalculator;
+import com.prenticeweb.weightlossbuddy.gauge.GaugeKt;
 import com.prenticeweb.weightlossbuddy.room.entity.WeightMeasurement;
 import com.prenticeweb.weightlossbuddy.room.view.WeightViewModel;
+import com.prenticeweb.weightlossbuddy.unit.height.Metre;
+import com.prenticeweb.weightlossbuddy.unit.weight.Kilogram;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -42,51 +45,10 @@ public class BMIActivity extends AppCompatActivity {
     }
 
     private void initBMIGauge() {
-        Range underWeightRange = new Range();
-        underWeightRange.setColor(R.color.underweight);
-        underWeightRange.setFrom(0.0);
-        underWeightRange.setTo(18.5);
-
-        Range normalRange = new Range();
-        normalRange.setColor(R.color.normal);
-        normalRange.setFrom(18.5);
-        normalRange.setTo(24.9);
-
-        Range overweightRange = new Range();
-        overweightRange.setColor(R.color.overweight);
-        normalRange.setFrom(24.9);
-        normalRange.setTo(29.9);
-
-        Range obeseRange = new Range();
-        obeseRange.setColor(R.color.obese);
-        obeseRange.setFrom(29.9);
-        obeseRange.setTo(34.9);
-
-        Range severelyObese = new Range();
-        severelyObese.setColor(R.color.severelyObese);
-        severelyObese.setFrom(34.9);
-        severelyObese.setTo(39.9);
-
-        Range morbidlyObese = new Range();
-        morbidlyObese.setColor(R.color.morbidlyObese);
-        morbidlyObese.setFrom(39.9);
-        morbidlyObese.setTo(45);
-
-        HalfGauge halfGauge = findViewById(R.id.halfGauge);
-        halfGauge.addRange(underWeightRange);
-        halfGauge.addRange(normalRange);
-        halfGauge.addRange(overweightRange);
-        halfGauge.addRange(obeseRange);
-        halfGauge.addRange(severelyObese);
-        halfGauge.addRange(morbidlyObese);
-
-
-        //set min max and current value
-        halfGauge.setMaxValueTextColor(R.color.black);
-        halfGauge.setMinValueTextColor(R.color.black);
-        BigDecimal currentWeightKg = weights.getValue().get(weights.getValue().size()-1).getWeightKg();
-        halfGauge.setMinValue(0);
-        halfGauge.setMaxValue(45); //TODO set to 45 if BMi is less than 45 else BMI plus 5
-        halfGauge.setValue(26.9);
+        ComposeView view = findViewById(R.id.halfGauge);
+        WeightMeasurement currentWeight = weights.getValue().get(weights.getValue().size()-1);
+        Kilogram currentWeightKg = new Kilogram(currentWeight.getWeightKg());
+        BigDecimal bmi = BMICalculator.calculateBMI(currentWeightKg, new Metre(BigDecimal.valueOf(1.73)));
+        GaugeKt.setContent(view, bmi.floatValue());
     }
 }

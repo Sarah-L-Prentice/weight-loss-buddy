@@ -45,5 +45,6 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 #roomCompiler =  { id = "androidx.room", version.ref = "room" }
 #lombok =  { id = "org.projectlombok", version.ref = "lombok" }
