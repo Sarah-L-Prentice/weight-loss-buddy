@@ -137,7 +137,7 @@ public class NewWeightDialogFragment extends AppCompatDialogFragment {
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
-        datePicker = new DatePickerDialog(this.getActivity(), AlertDialog.THEME_HOLO_LIGHT, dateSetListener, year, month, day);
+        datePicker = new DatePickerDialog(this.getActivity(), 0, dateSetListener, year, month, day);
     }
 
     private Date getTodayDate() {
