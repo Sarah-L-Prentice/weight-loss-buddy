@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.compose.ui.platform.ComposeView;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -18,15 +19,21 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.prenticeweb.weightlossbuddy.R;
+import com.prenticeweb.weightlossbuddy.calculations.BMICalculator;
+import com.prenticeweb.weightlossbuddy.calculations.HeightConverter;
 import com.prenticeweb.weightlossbuddy.calculations.WeightConverter;
+import com.prenticeweb.weightlossbuddy.gauge.GaugeKt;
 import com.prenticeweb.weightlossbuddy.room.entity.KeyInfo;
 import com.prenticeweb.weightlossbuddy.room.entity.WeightMeasurement;
 import com.prenticeweb.weightlossbuddy.room.view.KeyInfoViewModel;
 import com.prenticeweb.weightlossbuddy.room.view.WeightViewModel;
+import com.prenticeweb.weightlossbuddy.unit.height.Centimetre;
+import com.prenticeweb.weightlossbuddy.unit.height.Metre;
 import com.prenticeweb.weightlossbuddy.unit.weight.Kilogram;
 import com.prenticeweb.weightlossbuddy.unit.weight.Pound;
 import com.prenticeweb.weightlossbuddy.unit.weight.StoneAndPounds;
 
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -95,6 +102,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     
     private void updateCurrentWeightDisplay(List<WeightMeasurement> weightMeasurements, TextView textCurrentWeightAmount) {
+
+        ComposeView view = findViewById(R.id.halfGauge);
+
         List<WeightMeasurement> weights = weightMeasurements;
         KeyInfo keyInfoData = keyInfo.getValue();
         
@@ -107,6 +117,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (mostRecent != null) {
                 String formattedWeight = getFormattedWeight(keyInfoData.getPreferredWeightUnit(), mostRecent);
                 textCurrentWeightAmount.setText(formattedWeight);
+                Metre heightMetres = HeightConverter.convertCentimetreToMetres(new Centimetre(keyInfoData.getHeightInCm()));
+                Kilogram currentWeightKg = new Kilogram(mostRecent.getWeightKg());
+                BigDecimal bmi = BMICalculator.calculateBMI(currentWeightKg, heightMetres);
+                GaugeKt.setContent(view, bmi.floatValue());
             }
         }
     }

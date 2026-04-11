@@ -31,7 +31,7 @@ fun setContent(composeView: ComposeView, currentBMI: Float){
 
 @Composable
 fun GaugeScreen(@FloatRange(from = 0.0, to = 45.0) currentBMI: Float) {
-    val modifier = Modifier.padding(90.dp).requiredSize(300.dp)
+    val modifier = Modifier.padding(70.dp).requiredSize(100.dp)
     val underweightColour = colorResource(R.color.underweight);
     val normalColour = colorResource(R.color.normal);
     val overweightColour = colorResource(R.color.overweight);
@@ -41,7 +41,7 @@ fun GaugeScreen(@FloatRange(from = 0.0, to = 45.0) currentBMI: Float) {
     val textMeasurer = rememberTextMeasurer()
     Canvas(modifier = modifier, onDraw = {
         // Draw the arc
-        val strokeWidth: Float = 90.0.dp.toPx()
+        val strokeWidth: Float = 40.0.dp.toPx()
 
         drawArc(
             color = morbidlyObeseColour,
@@ -95,11 +95,11 @@ fun GaugeScreen(@FloatRange(from = 0.0, to = 45.0) currentBMI: Float) {
             cX = center.x,
             cY = center.y
         )
-        drawLine(color = Color.Black, start = center, end = currentBMIOffset, strokeWidth = 8.0f)
+        drawLine(color = Color.Black, start = center, end = currentBMIOffset, strokeWidth = 5.0f)
         val textLayoutResultBMI = textMeasurer.measure(
             text = currentBMI.toString(),
             style = TextStyle(
-                fontSize = 30.sp
+                fontSize = 20.sp
             )
         )
         val textHeight = textLayoutResultBMI.size.height
@@ -119,7 +119,7 @@ fun GaugeScreen(@FloatRange(from = 0.0, to = 45.0) currentBMI: Float) {
         val textLayoutResultCategory = textMeasurer.measure(
             text = getCategorization(currentBMI),
             style = TextStyle(
-                fontSize = 30.sp
+                fontSize = 20.sp
             )
         )
         val textHeightCategory = textLayoutResultCategory.size.height
@@ -166,5 +166,5 @@ fun getCategorization(@FloatRange(from = 0.0, to = 45.0) currentBMI: Float): Str
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun GaugePreview() {
-    GaugeScreen(26.4f)
+    GaugeScreen(16.4f)
 }

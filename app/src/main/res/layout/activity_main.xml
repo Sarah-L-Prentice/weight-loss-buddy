@@ -130,13 +130,19 @@
                     android:gravity="center"
                     android:textSize="20sp"
                     android:text="Current BMI:" />
-                <TextView
+                <androidx.compose.ui.platform.ComposeView
+                    android:id="@+id/halfGauge"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="top"
+                    android:padding="10dp"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:id="@+id/textBMI" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
@@ -158,14 +164,24 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:textSize="20sp"
-                    android:text="Current BMR:" />
-                <TextView
+                    android:text="Total lost:" />
+                <com.imsalman.gaugelibrary.Gauge
+                    android:id="@+id/gauge1"
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:id="@+id/textBMR" />
+                    android:layout_gravity="center"
+                    app:gaugePointStartColor="#4CAF50"
+                    app:gaugePointEndColor="#00ff00"
+                    app:gaugePointSize="89"
+                    app:gaugeStartAngle="135"
+                    app:gaugeStrokeCap="ROUND"
+                    app:gaugeStrokeColor="#FF367A"
+                    app:gaugeStrokeWidth="10dp"
+                    app:gaugeStartValue="10"
+                    app:gaugeEndValue="1000"
+                    app:gaugeSweepAngle="270"
+                    />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
