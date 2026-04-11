@@ -10,13 +10,11 @@ public class KeyInfo {
 
     @PrimaryKey
     private Integer identity;
-
     private BigDecimal heightInCm;
-
     private BigDecimal heightInInches;
     private BigDecimal targetWeightLb;
     private BigDecimal targetWeightKg;
-
+    private PreferredWeightUnit preferredWeightUnit;
 
 
     public Integer getIdentity() {
@@ -56,5 +54,19 @@ public class KeyInfo {
 
     public void setHeightInInches(BigDecimal heightInInches) {
         this.heightInInches = heightInInches;
+    }
+
+    public PreferredWeightUnit getPreferredWeightUnit() {
+        return preferredWeightUnit;
+    }
+
+    public void setPreferredWeightUnit(PreferredWeightUnit preferredWeightUnit) {
+        this.preferredWeightUnit = preferredWeightUnit;
+    }
+
+    public enum PreferredWeightUnit {
+        LB,
+        KG,
+        STONE_AND_POUNDS
     }
 }

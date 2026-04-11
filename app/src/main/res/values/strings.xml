@@ -3,6 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="kg">kg</string>
     <string name="lb">lb</string>
+    <string name="stone_and_pounds">stone and lb</string>
     <string name="cm">cm</string>
     <string name="feet">ft</string>
     <string name="inch">inches</string>

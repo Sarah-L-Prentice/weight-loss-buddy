@@ -7,6 +7,8 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.RadioButton;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 
@@ -14,6 +16,7 @@ import com.prenticeweb.weightlossbuddy.R;
 import com.prenticeweb.weightlossbuddy.calculations.HeightConverter;
 import com.prenticeweb.weightlossbuddy.calculations.WeightConverter;
 import com.prenticeweb.weightlossbuddy.room.view.KeyInfoViewModel;
+import com.prenticeweb.weightlossbuddy.room.entity.KeyInfo.PreferredWeightUnit;
 import com.prenticeweb.weightlossbuddy.unit.height.Centimetre;
 import com.prenticeweb.weightlossbuddy.unit.height.FeetAndInches;
 import com.prenticeweb.weightlossbuddy.unit.height.Inch;
@@ -43,6 +46,7 @@ public class OnStartupDialogFragment extends AppCompatDialogFragment {
     private EditText stoneEditText;
     private EditText lbsMinorUnitEditText;
     private TextWatcher stoneAndPoundsEditTextWatcher;
+    private RadioGroup weightUnitRadioGroup;
 
 
     @Override
@@ -59,6 +63,9 @@ public class OnStartupDialogFragment extends AppCompatDialogFragment {
         initHeightCmText(dialog);
         initHeightFeetAndInchesText(dialog);
 
+        // Initialize radio group
+        weightUnitRadioGroup = dialog.findViewById(R.id.radioGroup);
+
         Button saveButton = dialog.findViewById(R.id.save);
         saveButton.setOnClickListener(v -> {
             // Save to DB
@@ -69,7 +76,10 @@ public class OnStartupDialogFragment extends AppCompatDialogFragment {
             BigDecimal targetWeightKg = new BigDecimal(kgEditText.getText().toString());
             BigDecimal targetWeightLb = new BigDecimal(lbEditText.getText().toString());
 
-            viewModel.insert(heightCm, heightInches.getQuantity(), targetWeightLb, targetWeightKg);
+            // Get preferred weight unit from radio buttons
+            PreferredWeightUnit preferredWeightUnit = getPreferredWeightUnit();
+
+            viewModel.insert(heightCm, heightInches.getQuantity(), targetWeightLb, targetWeightKg, preferredWeightUnit);
             // close dialog
             dialog.dismiss();
         });
@@ -228,5 +238,28 @@ public class OnStartupDialogFragment extends AppCompatDialogFragment {
         editText2.setText(text2); //set text
         editText1.addTextChangedListener(textWatcher); //re-adding watcher
         editText2.addTextChangedListener(textWatcher); //re-adding watcher
+    }
+
+    private PreferredWeightUnit getPreferredWeightUnit() {
+        int selectedRadioButtonId = weightUnitRadioGroup.getCheckedRadioButtonId();
+        if (selectedRadioButtonId == -1) {
+            // Default to KG if nothing is selected
+            return PreferredWeightUnit.KG;
+        }
+        
+        RadioButton selectedRadioButton = weightUnitRadioGroup.findViewById(selectedRadioButtonId);
+        String selectedText = selectedRadioButton.getText().toString();
+        
+        // Map radio button text to enum values
+        if (selectedText.equals(getString(R.string.kg))) {
+            return PreferredWeightUnit.KG;
+        } else if (selectedText.equals(getString(R.string.lb))) {
+            return PreferredWeightUnit.LB;
+        } else if (selectedText.equals(getString(R.string.stone_and_pounds))) {
+            return PreferredWeightUnit.STONE_AND_POUNDS;
+        } else {
+            // Default fallback
+            return PreferredWeightUnit.KG;
+        }
     }
 }

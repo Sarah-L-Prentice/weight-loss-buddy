@@ -1,7 +1,5 @@
 package com.prenticeweb.weightlossbuddy.room.view;
 
-import static com.prenticeweb.weightlossbuddy.common.Constants.SIMPLE_DATE_FORMAT;
-
 import android.app.Application;
 
 import androidx.annotation.NonNull;
@@ -10,11 +8,9 @@ import androidx.lifecycle.LiveData;
 
 import com.prenticeweb.weightlossbuddy.room.WeightDatabase;
 import com.prenticeweb.weightlossbuddy.room.entity.KeyInfo;
-import com.prenticeweb.weightlossbuddy.room.entity.WeightMeasurement;
 import com.prenticeweb.weightlossbuddy.room.repository.KeyInfoRepository;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -35,12 +31,13 @@ public class KeyInfoViewModel extends AndroidViewModel {
         return readAll;
     }
 
-    public void insert(BigDecimal heightCm, BigDecimal heightInches, BigDecimal targetWeightLb, BigDecimal targetWeightKilo) {
+    public void insert(BigDecimal heightCm, BigDecimal heightInches, BigDecimal targetWeightLb, BigDecimal targetWeightKilo, KeyInfo.PreferredWeightUnit preferredWeightUnit) {
         KeyInfo keyInfo = new KeyInfo();
         keyInfo.setHeightInCm(heightCm);
         keyInfo.setHeightInInches(heightInches);
         keyInfo.setTargetWeightKg(targetWeightKilo);
         keyInfo.setTargetWeightLb(targetWeightLb);
+        keyInfo.setPreferredWeightUnit(preferredWeightUnit);
         performTask(() -> repo.insertKeyInfo(keyInfo));
     }
 

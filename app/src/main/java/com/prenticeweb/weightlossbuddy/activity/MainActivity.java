@@ -48,15 +48,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.keyInfoViewModel = keyInfoViewModel;
         initKeyInfoData();
 
-        if(null == keyInfo.getValue()) {
-            OnStartupDialogFragment dialog = new OnStartupDialogFragment(keyInfoViewModel);
-            dialog.show(getSupportFragmentManager(), "OnStartupDialogFragment");
-        }
-
         WeightViewModel weightViewModel = new ViewModelProvider(this).get(WeightViewModel.class);
         this.weightViewModel = weightViewModel;
 
         initWeightMeasurementsData();
+
+        if(null == keyInfo.getValue()) {
+            OnStartupDialogFragment dialog = new OnStartupDialogFragment(keyInfoViewModel);
+            dialog.show(getSupportFragmentManager(), "OnStartupDialogFragment");
+        }
     }
 
     @Override
