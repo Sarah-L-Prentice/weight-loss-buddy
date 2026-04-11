@@ -1,59 +1,42 @@
 package com.prenticeweb.weightlossbuddy.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.ekn.gruzer.gaugelibrary.HalfGauge;
-import com.ekn.gruzer.gaugelibrary.Range;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.listener.ChartTouchListener;
-import com.github.mikephil.charting.listener.OnChartGestureListener;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.prenticeweb.weightlossbuddy.R;
+import com.prenticeweb.weightlossbuddy.room.entity.KeyInfo;
 import com.prenticeweb.weightlossbuddy.room.entity.WeightMeasurement;
+import com.prenticeweb.weightlossbuddy.room.view.KeyInfoViewModel;
 import com.prenticeweb.weightlossbuddy.room.view.WeightViewModel;
 
-import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import lombok.val;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
 
     private LineChart chart;
-    private WeightViewModel viewModel;
+    private WeightViewModel weightViewModel;
+    private KeyInfoViewModel keyInfoViewModel;
     private LiveData<List<WeightMeasurement>> weights;
+    private LiveData<KeyInfo> keyInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +44,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        WeightViewModel viewModel = new ViewModelProvider(this).get(WeightViewModel.class);
-        this.viewModel = viewModel;
-        initData();
+        KeyInfoViewModel keyInfoViewModel = new ViewModelProvider(this).get(KeyInfoViewModel.class);
+        this.keyInfoViewModel = keyInfoViewModel;
+        initKeyInfoData();
+
+        if(null == keyInfo.getValue()) {
+            OnStartupDialogFragment dialog = new OnStartupDialogFragment(keyInfoViewModel);
+            dialog.show(getSupportFragmentManager(), "OnStartupDialogFragment");
+        }
+
+        WeightViewModel weightViewModel = new ViewModelProvider(this).get(WeightViewModel.class);
+        this.weightViewModel = weightViewModel;
+
+        initWeightMeasurementsData();
     }
 
     @Override
@@ -77,23 +70,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void initData() {
-        weights = viewModel.getReadAll();
+    private void initWeightMeasurementsData() {
+        weights = weightViewModel.getReadAll();
         weights.observe(this, weightMeasurements -> {
             createLineChart();
         });
+    }
+
+    private void initKeyInfoData() {
+        keyInfo = keyInfoViewModel.getReadAll();
+
     }
 
     private void createLineChart() {
         chart = findViewById(R.id.lineChart);
         chart.setDragEnabled(true);
         chart.setScaleEnabled(false);
-
-        LimitLine targetWeight = new LimitLine(35f);
-        targetWeight.setLineWidth(4f);
-        targetWeight.enableDashedLine(10f, 10f, 0f);
-        targetWeight.setTextSize(15f);
-        targetWeight.setLabel(getString(R.string.target_weight));
 
         ArrayList<Entry> yValues = new ArrayList<>();
         for (int i = 0; i < weights.getValue().size(); i++) {

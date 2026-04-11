@@ -14,23 +14,29 @@ public class WeightConverter extends UnitConverter {
     }
 
     private static final BigDecimal LBS_IN_ONE_KG = new BigDecimal("2.2046226218488");
+    private static final BigDecimal LBS_IN_ONE_STONE = new BigDecimal("14");
 
-    public static final Pound convertKgToLb(Kilogram kg) {
+    public static Pound convertKgToLb(Kilogram kg) {
         return new Pound(kg.getQuantity().multiply(LBS_IN_ONE_KG));
     }
 
-    public static final Kilogram convertLbToKg(Pound lb) {
+    public static Kilogram convertLbToKg(Pound lb) {
         return new Kilogram(divide(lb.getQuantity(), LBS_IN_ONE_KG));
     }
 
-    public static final StoneAndPounds convertKgToStoneAndPounds(Kilogram kg) {
+    public static StoneAndPounds convertKgToStoneAndPounds(Kilogram kg) {
         Pound lb = convertKgToLb(kg);
         return convertPoundsToStoneAndPounds(lb);
     }
 
-    public static final StoneAndPounds convertPoundsToStoneAndPounds(Pound lb) {
+    public static StoneAndPounds convertPoundsToStoneAndPounds(Pound lb) {
         CompoundUnitFactory factory = new CompoundUnitFactory();
         return factory.newInstance(lb.getQuantity(), StoneAndPounds.class);
     }
+
+    public static Pound convertStoneAndPoundsToPounds(StoneAndPounds stoneAndPounds) {
+        return new Pound(stoneAndPounds.getQuantity().multiply(LBS_IN_ONE_STONE).add(stoneAndPounds.getMinorUnit().getQuantity()));
+    }
+
 
 }

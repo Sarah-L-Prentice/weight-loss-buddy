@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">Weight Loss Buddy</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="kg">KG</string>
-    <string name="lb">LB</string>
-    <string name="stone">Stone</string>
+    <string name="kg">kg</string>
+    <string name="lb">lb</string>
+    <string name="cm">cm</string>
+    <string name="feet">ft</string>
+    <string name="inch">inches</string>
+    <string name="stone">stone</string>
     <string name="navigate_to_weight_tracker_screen">Go to weight tracker</string>
     <string name="date">Date</string>
     <string name="weight">Weight</string>

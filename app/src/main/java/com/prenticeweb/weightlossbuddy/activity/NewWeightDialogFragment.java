@@ -2,7 +2,6 @@ package com.prenticeweb.weightlossbuddy.activity;
 
 import static com.prenticeweb.weightlossbuddy.common.Constants.SIMPLE_DATE_FORMAT;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;

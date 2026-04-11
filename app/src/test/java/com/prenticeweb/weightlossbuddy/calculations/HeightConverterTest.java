@@ -142,4 +142,44 @@ class HeightConverterTest {
         assertThat(result.getMinorUnit().getQuantity()).isEqualTo(expected.getMinorUnit().getQuantity());
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "1       , 0 ,   12",
+            "2       , 0 ,   24",
+            "5       , 0 ,   60",
+            "5       , 2 ,   62",
+            "5       , 3 ,   63",
+            "5       , 4 ,   64",
+            "5       , 5 ,   65",
+            "6       , 0 ,   72",
+            "6       , 3 ,   75",
+            "8       , 0 ,   96",
+    })
+    void convertFeetAndInchesToInches(BigDecimal feet, BigDecimal inches, BigDecimal expectedInches) {
+        FeetAndInches input = new FeetAndInches(feet, inches);
+        Inch expected = new Inch(expectedInches);
+        Inch result = HeightConverter.convertFeetAndInchesToInch(input);
+        assertThat(result.getQuantity()).isEqualTo(expected.getQuantity());
+    }
+
+
+    @ParameterizedTest
+    @CsvSource({
+            "1       , 0 ,   30.48",
+            "2       , 0 ,   60.96",
+            "5       , 0 ,   152.40",
+            "5       , 2 ,   157.48",
+            "5       , 3 ,   160.02",
+            "5       , 4 ,   162.56",
+            "5       , 5 ,   165.10",
+            "6       , 0 ,   182.88",
+            "6       , 3 ,   190.50",
+            "8       , 0 ,   243.84",
+    })
+    void convertFeetAndInchesToCm(BigDecimal feet, BigDecimal inches, BigDecimal expectedCm) {
+        FeetAndInches input = new FeetAndInches(feet, inches);
+        Centimetre expected = new Centimetre(expectedCm);
+        Centimetre result = HeightConverter.convertFeetAndInchesToCm(input);
+        assertThat(result.getQuantity()).isEqualTo(expected.getQuantity());
+    }
 }

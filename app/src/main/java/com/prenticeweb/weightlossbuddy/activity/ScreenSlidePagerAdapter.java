@@ -26,9 +26,9 @@ public class ScreenSlidePagerAdapter extends FragmentStateAdapter {
             case 0:
                 return new ViewWeightMeasurementsFragment((WeightMeasurement wm) -> new Kilogram(wm.getWeightKg()));
             case 1:
-                return new ViewWeightMeasurementsFragment((WeightMeasurement wm) -> new Pound(wm.getWeightLb()));
-            case 2:
                 return new ViewWeightMeasurementsFragment((WeightMeasurement wm) -> WeightConverter.convertPoundsToStoneAndPounds(new Pound(wm.getWeightLb())));
+            case 2:
+                return new ViewWeightMeasurementsFragment((WeightMeasurement wm) -> new Pound(wm.getWeightLb()));
             default:
                 return new ViewWeightMeasurementsFragment((WeightMeasurement wm) -> new Kilogram(wm.getWeightKg()));
         }

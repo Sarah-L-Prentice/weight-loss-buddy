@@ -7,17 +7,20 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
+import com.prenticeweb.weightlossbuddy.room.dao.KeyInfoDao;
 import com.prenticeweb.weightlossbuddy.room.dao.WeightDao;
 import com.prenticeweb.weightlossbuddy.room.entity.Converters;
+import com.prenticeweb.weightlossbuddy.room.entity.KeyInfo;
 import com.prenticeweb.weightlossbuddy.room.entity.WeightMeasurement;
 
 import lombok.Getter;
 
-@Database(entities = {WeightMeasurement.class}, version = 1)
+@Database(entities = {WeightMeasurement.class, KeyInfo.class}, version = 1)
 @TypeConverters({Converters.class})
 @Getter
 public abstract class WeightDatabase extends RoomDatabase {
     public abstract WeightDao getWeightDao();
+    public abstract KeyInfoDao getKeyInfoDao();
 
     private static volatile WeightDatabase INSTANCE;
 
