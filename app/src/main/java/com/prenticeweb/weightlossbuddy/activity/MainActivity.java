@@ -52,11 +52,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.weightViewModel = weightViewModel;
 
         initWeightMeasurementsData();
-
-        if(null == keyInfo.getValue()) {
-            OnStartupDialogFragment dialog = new OnStartupDialogFragment(keyInfoViewModel);
-            dialog.show(getSupportFragmentManager(), "OnStartupDialogFragment");
-        }
     }
 
     @Override
@@ -79,7 +74,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initKeyInfoData() {
         keyInfo = keyInfoViewModel.getReadAll();
-
+        
+        // Observe the LiveData and show dialog only when data is loaded
+        keyInfo.observe(this, keyInfoData -> {
+            if (keyInfoData == null) {
+                OnStartupDialogFragment dialog = new OnStartupDialogFragment(keyInfoViewModel);
+                dialog.show(getSupportFragmentManager(), "OnStartupDialogFragment");
+            }
+        });
     }
 
     private void createLineChart() {
