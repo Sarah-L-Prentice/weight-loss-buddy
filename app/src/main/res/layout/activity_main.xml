@@ -53,13 +53,16 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:text="Target weight:" />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center"
+                    android:textSize="20sp"
                     android:id="@+id/textTargetWeightAmount" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -81,14 +84,18 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:text="Current weight:" />
+
                 <TextView
+                    android:id="@+id/textCurrentWeightAmount"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    android:id="@+id/textCurrentWeightAmount" />
+                    android:textSize="20sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
@@ -119,13 +126,16 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:text="Current BMI:" />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center"
+                    android:textSize="20sp"
                     android:id="@+id/textBMI" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -145,13 +155,16 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:text="Current BMR:" />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center"
+                    android:textSize="20sp"
                     android:id="@+id/textBMR" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
