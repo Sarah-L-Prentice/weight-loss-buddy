@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.compose.ui.platform.ComposeView
-        android:id="@+id/halfGauge"
+        android:id="@+id/halfGaugeBmi"
         android:layout_width="match_parent"
         android:layout_height="285dp"
         android:layout_margin="20dp"
@@ -31,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/halfGauge"
+        app:layout_constraintTop_toBottomOf="@+id/halfGaugeBmi"
         app:layout_constraintVertical_bias="0.086" />
 
     <TextView

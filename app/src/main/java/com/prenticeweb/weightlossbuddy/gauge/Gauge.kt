@@ -165,6 +165,6 @@ fun getCategorization(@FloatRange(from = 0.0, to = 45.0) currentBMI: Float): Str
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun GaugePreview() {
+fun GaugeBMIPreview() {
     GaugeScreen(16.4f)
 }

@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="lightYellow">#E6EE9C</color>
     <color name="accent">#78888A</color>
+    <color name="lightGrey">#6DB3BEC1</color>
     <color name="primary">#737883</color>
     <color name="primaryDark">#637087</color>
     <color name="underweight">#05FBEF</color>

@@ -45,7 +45,7 @@ public class BMIActivity extends AppCompatActivity {
     }
 
     private void initBMIGauge() {
-        ComposeView view = findViewById(R.id.halfGauge);
+        ComposeView view = findViewById(R.id.halfGaugeBmi);
         WeightMeasurement currentWeight = weights.getValue().get(weights.getValue().size()-1);
         Kilogram currentWeightKg = new Kilogram(currentWeight.getWeightKg());
         BigDecimal bmi = BMICalculator.calculateBMI(currentWeightKg, new Metre(BigDecimal.valueOf(1.73)));

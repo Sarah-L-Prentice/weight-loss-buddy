@@ -23,6 +23,8 @@ import com.prenticeweb.weightlossbuddy.calculations.BMICalculator;
 import com.prenticeweb.weightlossbuddy.calculations.HeightConverter;
 import com.prenticeweb.weightlossbuddy.calculations.WeightConverter;
 import com.prenticeweb.weightlossbuddy.gauge.GaugeKt;
+import com.prenticeweb.weightlossbuddy.gauge.ProgressGauge;
+import com.prenticeweb.weightlossbuddy.gauge.ProgressGaugeKt;
 import com.prenticeweb.weightlossbuddy.room.entity.KeyInfo;
 import com.prenticeweb.weightlossbuddy.room.entity.WeightMeasurement;
 import com.prenticeweb.weightlossbuddy.room.view.KeyInfoViewModel;
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     
     private void updateCurrentWeightDisplay(List<WeightMeasurement> weightMeasurements, TextView textCurrentWeightAmount) {
 
-        ComposeView view = findViewById(R.id.halfGauge);
+        ComposeView bmiView = findViewById(R.id.halfGaugeBmi);
 
         List<WeightMeasurement> weights = weightMeasurements;
         KeyInfo keyInfoData = keyInfo.getValue();
@@ -113,14 +115,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             WeightMeasurement mostRecent = weights.stream()
                     .max(Comparator.comparing(WeightMeasurement::getDate))
                     .orElse(null);
+
+            WeightMeasurement startWeight = weights.stream()
+                    .min(Comparator.comparing(WeightMeasurement::getDate))
+                    .orElse(null);
             
             if (mostRecent != null) {
-                String formattedWeight = getFormattedWeight(keyInfoData.getPreferredWeightUnit(), mostRecent);
-                textCurrentWeightAmount.setText(formattedWeight);
+                String formattedCurrentWeight = getFormattedWeight(keyInfoData.getPreferredWeightUnit(), mostRecent);
+                textCurrentWeightAmount.setText(formattedCurrentWeight);
                 Metre heightMetres = HeightConverter.convertCentimetreToMetres(new Centimetre(keyInfoData.getHeightInCm()));
                 Kilogram currentWeightKg = new Kilogram(mostRecent.getWeightKg());
                 BigDecimal bmi = BMICalculator.calculateBMI(currentWeightKg, heightMetres);
-                GaugeKt.setContent(view, bmi.floatValue());
+                GaugeKt.setContent(bmiView, bmi.floatValue());
+
+
+                ComposeView view = findViewById(R.id.progressGauge);
+                WeightMeasurement targetWeight = new WeightMeasurement();
+                targetWeight.setWeightKg(keyInfoData.getTargetWeightKg());
+                targetWeight.setWeightLb(keyInfoData.getTargetWeightLb());
+                String formattedTargetWeight = getFormattedWeight(keyInfoData.getPreferredWeightUnit(), targetWeight);
+                WeightMeasurement weightLost = mostRecent.subtract(startWeight);
+                String formattedWeightLost = getFormattedWeight(keyInfoData.getPreferredWeightUnit(), weightLost);
+
+                // Calculate total weight to lose (start weight - target weight)
+                WeightMeasurement totalWeightToLose = startWeight.subtract(targetWeight);
+                
+                // Calculate percentage of weight lost as decimal
+                float percentageLost = weightLost.getWeightKg()
+                            .divide(totalWeightToLose.getWeightKg(), 2, RoundingMode.HALF_UP)
+                            .floatValue();
+
+                ProgressGaugeKt.setContent(view, percentageLost, formattedWeightLost, formattedTargetWeight);
             }
         }
     }
