@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.gridlayout.widget.GridLayout;
@@ -142,12 +143,14 @@ public class ViewWeightMeasurementsFragment extends Fragment {
     }
 
     private View.OnClickListener getDeleteListener(TextView dateTextView) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewModel.delete(dateTextView.getText().toString());
-            }
-        };
+        return v -> new AlertDialog.Builder(requireContext())
+                .setTitle("Delete row")
+                .setMessage("Are you sure you want to delete this weight measurement?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    viewModel.delete(dateTextView.getText().toString());
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 
     private GridLayout.LayoutParams getLayoutParams(int col, int row) {
