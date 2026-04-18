@@ -74,7 +74,11 @@ public class ViewWeightMeasurementsFragment extends Fragment {
     private void initAddNewButton(View view) {
         FloatingActionButton newWeightBtn = view.findViewById(R.id.fabAddNew);
         newWeightBtn.setOnClickListener(v -> {
-            NewWeightDialogFragment df = new NewWeightDialogFragment(viewModel);
+            WeightEntryDialogFragment df = new WeightEntryDialogFragment(
+                WeightEntryDialogFragment.DialogMode.WEIGHT_ENTRY, 
+                viewModel, 
+                null
+            );
             df.show(getActivity().getSupportFragmentManager(), TAG);
         });
     }

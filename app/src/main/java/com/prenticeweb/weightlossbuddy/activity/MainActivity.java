@@ -79,10 +79,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initTargetWeightTile() {
         TextView textTargetWeightAmount = findViewById(R.id.textTargetWeightAmount);
         keyInfo.observe(this, keyInfoData -> {
-            WeightMeasurement wm = new WeightMeasurement();
-            wm.setWeightKg(keyInfoData.getTargetWeightKg());
-            wm.setWeightLb(keyInfoData.getTargetWeightLb());
-            textTargetWeightAmount.setText(wm.getFormattedWeight(keyInfoData.getPreferredWeightUnit(), false));
+            if (keyInfoData != null) {
+                WeightMeasurement wm = new WeightMeasurement();
+                wm.setWeightKg(keyInfoData.getTargetWeightKg());
+                wm.setWeightLb(keyInfoData.getTargetWeightLb());
+                textTargetWeightAmount.setText(wm.getFormattedWeight(keyInfoData.getPreferredWeightUnit(), false));
+            }
         });
     }
 
@@ -159,7 +161,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Observe the LiveData and show dialog only when data is loaded
         keyInfo.observe(this, keyInfoData -> {
             if (keyInfoData == null) {
-                OnStartupDialogFragment dialog = new OnStartupDialogFragment(keyInfoViewModel);
+                WeightEntryDialogFragment dialog = new WeightEntryDialogFragment(
+                    WeightEntryDialogFragment.DialogMode.TARGET_SETUP,
+                    null,
+                    keyInfoViewModel
+                );
                 dialog.show(getSupportFragmentManager(), "OnStartupDialogFragment");
             }
         });

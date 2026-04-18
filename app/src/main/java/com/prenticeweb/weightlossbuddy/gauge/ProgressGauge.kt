@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.prenticeweb.weightlossbuddy.R
+import kotlin.math.absoluteValue
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -41,6 +42,7 @@ fun GaugeProgressScreen(progressPercent: Float, weightLost: String, totalWeightT
 
     val textMeasurer = rememberTextMeasurer()
     val lightGrey = colorResource(R.color.lightGrey)
+    val progressPct = progressPercent.absoluteValue
 
     Canvas(
         modifier = Modifier
@@ -49,7 +51,7 @@ fun GaugeProgressScreen(progressPercent: Float, weightLost: String, totalWeightT
     ) {
         val angleSize = 270f
         val startAngle = 270 - angleSize / 2
-        val sweepAngle = angleSize * progressPercent
+        val sweepAngle = angleSize * progressPct
         val strokeWidth: Float = 20.0.dp.toPx()
 
         drawArc(
@@ -109,7 +111,7 @@ private fun pointOnCircle(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun GaugePreview() {
-    GaugeProgressScreen(0.6f, "3.00kg", "10.00kg")
+    GaugeProgressScreen(-0.5f, "3.00kg", "10.00kg")
 }
 
 
