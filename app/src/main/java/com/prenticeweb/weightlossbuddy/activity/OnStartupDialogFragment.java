@@ -105,7 +105,7 @@ public class OnStartupDialogFragment extends AppCompatDialogFragment {
                 if (!s.toString().isEmpty()) {
                     BigDecimal stone = stoneEditText.getText().toString().isEmpty() ? BigDecimal.ZERO : new BigDecimal(stoneEditText.getText().toString());
                     BigDecimal lbs = lbsMinorUnitEditText.getText().toString().isEmpty() ? BigDecimal.ZERO : new BigDecimal(lbsMinorUnitEditText.getText().toString());
-                    StoneAndPounds stoneAndPounds = new StoneAndPounds(stone, lbs);
+                    StoneAndPounds stoneAndPounds = new StoneAndPounds(stone, lbs, false);
                     Pound pound = WeightConverter.convertStoneAndPoundsToPounds(stoneAndPounds);
                     Kilogram kg = WeightConverter.convertLbToKg(pound);
                     setTextSilently(lbEditText, lbEditTextWatcher, pound.getScaledUnit());

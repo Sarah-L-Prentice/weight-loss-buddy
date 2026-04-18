@@ -56,29 +56,31 @@ class StoneAndPoundsTest {
 
     @ParameterizedTest
     @CsvSource({
-            "-1, -3, -1st 3lbs",
-            " 0, -2, -0st 2lbs",
-            "-2,  0, -2st 0lbs"
+            "-1, -3, true,  -1st 3lbs",
+            "-0,  2, true,  -0st 2lbs",
+            " 0,  2, false, 0st 2lbs",
+            "-2,  0, true,  -2st 0lbs"
     })
-    void formatNegatives(BigDecimal stone, BigDecimal lb, String expected) {
-        StoneAndPounds stoneAndPounds = new StoneAndPounds(stone, lb);
+    void formatNegatives(BigDecimal stone, BigDecimal lb, boolean isNegative, String expected) {
+        StoneAndPounds stoneAndPounds = new StoneAndPounds(stone, lb, isNegative);
         assertThat(stoneAndPounds.getFormattedUnit()).isEqualTo(expected);
     }
 
     @ParameterizedTest
     @CsvSource({
-            "-1, -3, -1st 3lbs",
-            " 1,  3, +1st 3lbs",
-            " 0, -2, -0st 2lbs",
-            " 0,  2, +0st 2lbs",
-            "-2,  0, -2st 0lbs"
+            "-1, -3, true,  -1st 3lbs",
+            " 1,  3, false, +1st 3lbs",
+            " 0, -2, true,  -0st 2lbs",
+            " 0,  2, false, +0st 2lbs",
+            "-2,  0, true,  -2st 0lbs"
     })
-    void getSignedFormattedUnit(BigDecimal stone, BigDecimal lb, String expected) {
-
+    void getSignedFormattedUnit(BigDecimal stone, BigDecimal lb, boolean isNegative, String expected) {
+        StoneAndPounds stoneAndPounds = new StoneAndPounds(stone, lb, isNegative);
+        assertThat(stoneAndPounds.getSignedFormattedUnit()).isEqualTo(expected);
     }
 
     private StoneAndPounds getClassToTest(BigDecimal lbs){
         CompoundUnitFactory factory = new CompoundUnitFactory();
-        return factory.newInstance(lbs, StoneAndPounds.class);
+        return factory.newInstance(lbs, StoneAndPounds.class, lbs.compareTo(BigDecimal.ZERO) < 0);
     }
 }

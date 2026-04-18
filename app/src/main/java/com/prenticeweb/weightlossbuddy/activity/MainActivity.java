@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             WeightMeasurement wm = new WeightMeasurement();
             wm.setWeightKg(keyInfoData.getTargetWeightKg());
             wm.setWeightLb(keyInfoData.getTargetWeightLb());
-            textTargetWeightAmount.setText(getFormattedWeight(keyInfoData.getPreferredWeightUnit(), wm));
+            textTargetWeightAmount.setText(wm.getFormattedWeight(keyInfoData.getPreferredWeightUnit(), false));
         });
     }
 
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .orElse(null);
             
             if (mostRecent != null) {
-                String formattedCurrentWeight = getFormattedWeight(keyInfoData.getPreferredWeightUnit(), mostRecent);
+                String formattedCurrentWeight = mostRecent.getFormattedWeight(keyInfoData.getPreferredWeightUnit(), false);
                 textCurrentWeightAmount.setText(formattedCurrentWeight);
                 Metre heightMetres = HeightConverter.convertCentimetreToMetres(new Centimetre(keyInfoData.getHeightInCm()));
                 Kilogram currentWeightKg = new Kilogram(mostRecent.getWeightKg());
@@ -133,9 +133,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 WeightMeasurement targetWeight = new WeightMeasurement();
                 targetWeight.setWeightKg(keyInfoData.getTargetWeightKg());
                 targetWeight.setWeightLb(keyInfoData.getTargetWeightLb());
-                String formattedTargetWeight = getFormattedWeight(keyInfoData.getPreferredWeightUnit(), targetWeight);
+                String formattedTargetWeight = targetWeight.getFormattedWeight(keyInfoData.getPreferredWeightUnit(), false);
                 WeightMeasurement weightLost = mostRecent.subtract(startWeight);
-                String formattedWeightLost = getFormattedWeight(keyInfoData.getPreferredWeightUnit(), weightLost);
+                String formattedWeightLost = weightLost.getFormattedWeight(keyInfoData.getPreferredWeightUnit(), true);
 
                 // Calculate total weight to lose (start weight - target weight)
                 WeightMeasurement totalWeightToLose = startWeight.subtract(targetWeight);
@@ -200,20 +200,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         xAxis.setValueFormatter(new IndexAxisValueFormatter(xValues));
         chart.notifyDataSetChanged();
         chart.invalidate();
-    }
-
-    private String getFormattedWeight(KeyInfo.PreferredWeightUnit preferredWeightUnit, WeightMeasurement wm) {
-        switch (preferredWeightUnit) {
-            case KG:
-                Kilogram kg = new Kilogram(wm.getWeightKg());
-                return kg.getFormattedUnit();
-            case STONE_AND_POUNDS:
-                StoneAndPounds stoneAndPounds = WeightConverter.convertPoundsToStoneAndPounds(new Pound(wm.getWeightLb()));
-                return stoneAndPounds.getFormattedUnit();
-            case LB:
-                Pound pound = new Pound(wm.getWeightLb());
-                return pound.getFormattedUnit();
-        }
-        return "";
     }
 }

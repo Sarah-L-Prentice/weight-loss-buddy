@@ -6,19 +6,26 @@ import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public abstract class CompoundUnit<T> extends Unit {
+public abstract class CompoundUnit extends Unit {
     private Unit minorUnit;
+
+    private boolean isNegative;
 
     protected abstract Class<? extends Unit> getMinorUnitClass();
 
-    protected CompoundUnit(BigDecimal quantityMajorUnit, BigDecimal quantityMinorUnit) {
+    protected CompoundUnit(BigDecimal quantityMajorUnit, BigDecimal quantityMinorUnit, boolean isNegative) {
         super(quantityMajorUnit);
         try {
             this.minorUnit = getMinorUnitClass().getConstructor(BigDecimal.class).newInstance(quantityMinorUnit);
+            this.isNegative = isNegative;
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException |
                  InvocationTargetException e) {
             e.printStackTrace();
         }
+    }
+
+    protected CompoundUnit(BigDecimal quantityMajorUnit, BigDecimal quantityMinorUnit) {
+        this(quantityMajorUnit, quantityMinorUnit, false);
     }
 
     protected abstract int getDefaultScaleMinorUnit();
@@ -26,7 +33,7 @@ public abstract class CompoundUnit<T> extends Unit {
     protected abstract BigDecimal getQuantityMinorUnitsInMajorUnits();
 
     protected BigDecimal calculateMajorUnitQuantity(BigDecimal quantityMinorUnit) {
-        return quantityMinorUnit.divide(getQuantityMinorUnitsInMajorUnits(), 0, RoundingMode.FLOOR);
+        return quantityMinorUnit.divide(getQuantityMinorUnitsInMajorUnits(), 0, RoundingMode.DOWN);
     }
 
     protected BigDecimal calculateMinorUnitQuantity(BigDecimal quantityMinorUnit) {
@@ -35,12 +42,23 @@ public abstract class CompoundUnit<T> extends Unit {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T extends Unit> T subtract(T secondUnit) {
         try {
             CompoundUnit compoundUnit = (CompoundUnit) secondUnit;
-            BigDecimal majorUnits = this.getQuantity().subtract(compoundUnit.getQuantity());
-            BigDecimal minorUnits = this.minorUnit.getQuantity().subtract(compoundUnit.getMinorUnit().getQuantity());
-            return (T) secondUnit.getClass().getConstructor(BigDecimal.class, BigDecimal.class).newInstance(majorUnits, minorUnits);
+            BigDecimal quantityMinorUnitsInMajorUnits = getQuantityMinorUnitsInMajorUnits();
+            BigDecimal majorUnits = negateQuantity().subtract(compoundUnit.negateQuantity());
+            BigDecimal minorUnits = negateMinorUnitQuantity().subtract(compoundUnit.negateMinorUnitQuantity());
+
+            // Handle borrowing if minor units are negative
+            if (minorUnits.compareTo(BigDecimal.ZERO) < 0 && majorUnits.compareTo(BigDecimal.ZERO) > 0) {
+                minorUnits = minorUnits.add(quantityMinorUnitsInMajorUnits);
+                majorUnits = majorUnits.subtract(BigDecimal.ONE);
+            }
+
+            boolean isNegative = majorUnits.compareTo(BigDecimal.ZERO) < 0 || minorUnits.compareTo(BigDecimal.ZERO) < 0;
+            T result = (T) secondUnit.getClass().getConstructor(BigDecimal.class, BigDecimal.class, boolean.class).newInstance(majorUnits.abs(), minorUnits.abs(), isNegative);
+            return result;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -49,7 +67,7 @@ public abstract class CompoundUnit<T> extends Unit {
     @Override
     public String getFormattedUnit(int scale) {
         String minus = "-";
-        if(minorUnit.getQuantity().compareTo(BigDecimal.ZERO) < 0 || getQuantity().compareTo(BigDecimal.ZERO) < 0 ) {
+        if(minorUnit.getQuantity().compareTo(BigDecimal.ZERO) < 0 || getQuantity().compareTo(BigDecimal.ZERO) < 0) {
             return StringUtils.join(minus, getQuantity().abs(), getUnitNameShorthand(), " ", minorUnit.getFormattedUnit(scale).replace("-", ""));
         } else{
             return StringUtils.join(getQuantity(), getUnitNameShorthand(), " ", minorUnit.getFormattedUnit(scale));
@@ -70,4 +88,15 @@ public abstract class CompoundUnit<T> extends Unit {
         return minorUnit;
     }
 
+    public boolean isNegative() {
+        return isNegative;
+    }
+
+    public BigDecimal negateQuantity() {
+        return isNegative ? getQuantity().negate() : getQuantity();
+    }
+
+    public BigDecimal negateMinorUnitQuantity() {
+        return isNegative ? getMinorUnit().getQuantity().negate() : getMinorUnit().getQuantity();
+    }
 }

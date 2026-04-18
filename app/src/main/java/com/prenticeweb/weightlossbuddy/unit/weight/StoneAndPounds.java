@@ -12,8 +12,9 @@ public class StoneAndPounds extends CompoundUnit {
     private static final String STONE_SHORTHAND = "st";
     private static final BigDecimal LBS_IN_ONE_STONE = new BigDecimal("14");
 
-    public StoneAndPounds(BigDecimal quantityMajorUnit, BigDecimal quantityMinorUnit) {
-        super(quantityMajorUnit, quantityMinorUnit);
+    
+    public StoneAndPounds(BigDecimal quantityMajorUnit, BigDecimal quantityMinorUnit, boolean isNegative) {
+        super(quantityMajorUnit.abs(), quantityMinorUnit.abs(), isNegative);
     }
 
     @Override
@@ -39,5 +40,19 @@ public class StoneAndPounds extends CompoundUnit {
     @Override
     protected BigDecimal getQuantityMinorUnitsInMajorUnits() {
         return LBS_IN_ONE_STONE;
+    }
+    
+    @Override
+    public String getFormattedUnit(int scale) {
+        if (isNegative()) {
+            return "-" + getQuantity() + getUnitNameShorthand() + " " + getMinorUnit().getFormattedUnit(scale);
+        } else {
+            return getQuantity() + getUnitNameShorthand() + " " + getMinorUnit().getFormattedUnit(scale);
+        }
+    }
+    
+    @Override
+    public String getFormattedUnit() {
+        return getFormattedUnit(getDefaultScaleMinorUnit());
     }
 }

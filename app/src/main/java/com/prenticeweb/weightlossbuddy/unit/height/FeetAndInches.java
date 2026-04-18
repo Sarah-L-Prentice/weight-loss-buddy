@@ -15,7 +15,7 @@ public class FeetAndInches extends CompoundUnit {
     private static final BigDecimal INCHES_IN_ONE_FOOT = new BigDecimal("12");
 
     public FeetAndInches(BigDecimal quantityMajorUnit, BigDecimal quantityMinorUnit) {
-        super(quantityMajorUnit, quantityMinorUnit);
+        super(quantityMajorUnit, quantityMinorUnit, false);
     }
 
     @Override

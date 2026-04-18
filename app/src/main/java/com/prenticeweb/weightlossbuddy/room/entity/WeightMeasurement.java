@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey;
 import com.prenticeweb.weightlossbuddy.calculations.WeightConverter;
 import com.prenticeweb.weightlossbuddy.unit.weight.Kilogram;
 import com.prenticeweb.weightlossbuddy.unit.weight.Pound;
+import com.prenticeweb.weightlossbuddy.unit.weight.StoneAndPounds;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -71,6 +72,21 @@ public class WeightMeasurement {
         // Note: date is not set for the difference measurement as it represents a delta
         
         return result;
+    }
+
+    public String getFormattedWeight(KeyInfo.PreferredWeightUnit preferredWeightUnit, boolean signed) {
+        switch (preferredWeightUnit) {
+            case KG:
+                Kilogram kg = new Kilogram(weightKg);
+                return signed ? kg.getSignedFormattedUnit() : kg.getFormattedUnit();
+            case STONE_AND_POUNDS:
+                StoneAndPounds stoneAndPounds = WeightConverter.convertPoundsToStoneAndPounds(new Pound(weightLb));
+                return signed ? stoneAndPounds.getSignedFormattedUnit() : stoneAndPounds.getFormattedUnit();
+            case LB:
+                Pound pound = new Pound(weightLb);
+                return signed ? pound.getSignedFormattedUnit() : pound.getFormattedUnit();
+        }
+        return "";
     }
 
 }

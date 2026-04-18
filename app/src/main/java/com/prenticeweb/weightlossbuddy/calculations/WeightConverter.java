@@ -31,7 +31,7 @@ public class WeightConverter extends UnitConverter {
 
     public static StoneAndPounds convertPoundsToStoneAndPounds(Pound lb) {
         CompoundUnitFactory factory = new CompoundUnitFactory();
-        return factory.newInstance(lb.getQuantity(), StoneAndPounds.class);
+        return factory.newInstance(lb.getQuantity(), StoneAndPounds.class, lb.getQuantity().compareTo(BigDecimal.ZERO) < 0);
     }
 
     public static Pound convertStoneAndPoundsToPounds(StoneAndPounds stoneAndPounds) {

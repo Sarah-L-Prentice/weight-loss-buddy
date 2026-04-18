@@ -16,6 +16,7 @@ class WeightConverterTest {
     @ParameterizedTest
     @CsvSource({
             "2.2046    , 0.99998973890199",
+            "-2.2046   , -0.99998973890199",
             "4.4092    , 1.99997947780398",
             "11.0231   , 4.99999405374695",
             "17.6370   , 8.00000862968991",
@@ -28,6 +29,7 @@ class WeightConverterTest {
             "1.9632    , 0.89049254078399",
             "182.0136  , 82.55998019623109",
             "165.0100  , 74.84727697369918",
+            "-165.0100 , -74.84727697369918",
     })
     void convertLbsToKg(BigDecimal lbInput, BigDecimal kgExpected) {
         Pound input = new Pound(lbInput);
@@ -38,19 +40,21 @@ class WeightConverterTest {
 
     @ParameterizedTest
     @CsvSource({
-            "1       , 2.2046226218488",
-            "2       , 4.4092452436976",
-            "5       , 11.0231131092440",
-            "8       , 17.6369809747904",
-            "78      , 171.9605645042064",
-            "81      , 178.5744323697528",
-            "0.5     , 1.10231131092440",
-            "0.75    , 1.653466966386600",
-            "0.25    , 0.551155655462200",
-            "0.2111  , 0.46539583547228168",
-            "0.8905  , 1.96321644475635640",
-            "82.56   , 182.013643659836928",
-            "74.84726, 165.009962579398814288",
+            "1        , 2.2046226218488",
+            "-1       , -2.2046226218488",
+            "2        , 4.4092452436976",
+            "5        , 11.0231131092440",
+            "8        , 17.6369809747904",
+            "78       , 171.9605645042064",
+            "81       , 178.5744323697528",
+            "0.5      , 1.10231131092440",
+            "0.75     , 1.653466966386600",
+            "0.25     , 0.551155655462200",
+            "0.2111   , 0.46539583547228168",
+            "0.8905   , 1.96321644475635640",
+            "82.56    , 182.013643659836928",
+            "74.84726 , 165.009962579398814288",
+            "-74.84726, -165.009962579398814288",
     })
     void convertKgToLbs(BigDecimal kgInput, BigDecimal lbExpected) {
         Kilogram kg = new Kilogram(kgInput);
@@ -61,23 +65,25 @@ class WeightConverterTest {
 
     @ParameterizedTest
     @CsvSource({
-            "1       , 0 ,   2.2046226218",
-            "2       , 0 ,   4.4092452437",
-            "5       , 0 ,   11.0231131092",
-            "8       , 1 ,   3.6369809748",
-            "78      , 12,   3.9605645042",
-            "81      , 12,   10.5744323698",
-            "0.5     , 0 ,   1.1023113109",
-            "0.75    , 0 ,   1.6534669664",
-            "0.25    , 0 ,   0.5511556555",
-            "0.2111  , 0 ,   0.4653958355",
-            "0.8905  , 0 ,   1.9632164448",
-            "82.56   , 13,   0.0136436598",
-            "74.84726, 11,   11.0099625794",
+            "1        , 0   ,   2.2046226218",
+            "2        , 0   ,   4.4092452437",
+            "5        , 0   ,   11.0231131092",
+            "8        , 1   ,   3.6369809748",
+            "78       , 12  ,   3.9605645042",
+            "81       , 12  ,   10.5744323698",
+            "0.5      , 0   ,   1.1023113109",
+            "0.75     , 0   ,   1.6534669664",
+            "0.25     , 0   ,   0.5511556555",
+            "0.2111   , 0   ,   0.4653958355",
+            "0.8905   , 0   ,   1.9632164448",
+            "-0.8905  , -0  ,   1.9632164448",
+            "82.56    , 13  ,   0.0136436598",
+            "74.84726 , 11  ,   11.0099625794",
+            "-74.84726, -11 ,  11.0099625794",
     })
     void convertKgToStoneAndPounds(BigDecimal inputQuantity, BigDecimal expectedStone, BigDecimal expectedPounds) {
         Kilogram input = new Kilogram(inputQuantity);
-        StoneAndPounds expected = new StoneAndPounds(expectedStone, expectedPounds);
+        StoneAndPounds expected = new StoneAndPounds(expectedStone, expectedPounds, inputQuantity.compareTo(BigDecimal.ZERO) < 0);
         StoneAndPounds result = WeightConverter.convertKgToStoneAndPounds(input);
         assertThat(result.getQuantity()).isEqualTo(expected.getQuantity());
         assertThat(result.getMinorUnit().getQuantity()).isEqualTo(expected.getMinorUnit().getQuantity());
@@ -85,23 +91,25 @@ class WeightConverterTest {
 
     @ParameterizedTest
     @CsvSource({
-            "1       , 0 ,   1.0000000000",
-            "2       , 0 ,   2.0000000000",
-            "5       , 0 ,   5.0000000000",
-            "8       , 0 ,   8.0000000000",
-            "78      , 5 ,   8.0000000000",
-            "81      , 5 ,   11.0000000000",
-            "0.5     , 0 ,   0.5000000000",
-            "0.75    , 0 ,   0.7500000000",
-            "0.25    , 0 ,   0.2500000000",
-            "0.2111  , 0 ,   0.2111000000",
-            "0.8905  , 0 ,   0.8905000000",
-            "82.56   , 5 ,   12.5600000000",
-            "74.84726, 5 ,   4.8472600000",
+            "1       ,  0 ,   1.0000000000 , false",
+            "2       ,  0 ,   2.0000000000 , false",
+            "5       ,  0 ,   5.0000000000 , false",
+            "8       ,  0 ,   8.0000000000 , false",
+            "78      ,  5 ,   8.0000000000 , false",
+            "81      ,  5 ,   11.0000000000 , false",
+            "0.5     ,  0 ,   0.5000000000 , false",
+            "0.75    ,  0 ,   0.7500000000 , false",
+            "0.25    ,  0 ,   0.2500000000 , false",
+            "0.2111  ,  0 ,   0.2111000000 , false",
+            "0.8905  ,  0 ,   0.8905000000 , false",
+            "82.56   ,  5 ,   12.5600000000 , false",
+            "74.84726,  5 ,   4.8472600000 , false",
+            "-74.8472, -5 ,   4.8472000000 , true",
+            "-8      , -0 ,   8.0000000000 , true",
     })
-    void convertPoundsToStoneAndPounds(BigDecimal inputQuantity, BigDecimal expectedStone, BigDecimal expectedPounds) {
+    void convertPoundsToStoneAndPounds(BigDecimal inputQuantity, BigDecimal expectedStone, BigDecimal expectedPounds, boolean isNegative) {
         Pound input = new Pound(inputQuantity);
-        StoneAndPounds expected = new StoneAndPounds(expectedStone, expectedPounds);
+        StoneAndPounds expected = new StoneAndPounds(expectedStone, expectedPounds, isNegative);
         StoneAndPounds result = WeightConverter.convertPoundsToStoneAndPounds(input);
         assertThat(result.getQuantity()).isEqualTo(expected.getQuantity());
         assertThat(result.getMinorUnit().getQuantity()).isEqualTo(expected.getMinorUnit().getQuantity());
