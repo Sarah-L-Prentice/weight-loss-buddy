@@ -78,7 +78,8 @@ public class ViewWeightMeasurementsFragment extends Fragment {
             WeightEntryDialogFragment df = new WeightEntryDialogFragment(
                 WeightEntryDialogFragment.DialogMode.WEIGHT_ENTRY, 
                 viewModel, 
-                null
+                null,
+                weights
             );
             df.show(getActivity().getSupportFragmentManager(), TAG);
         });

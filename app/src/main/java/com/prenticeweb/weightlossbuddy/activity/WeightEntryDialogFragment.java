@@ -4,6 +4,7 @@ import static com.prenticeweb.weightlossbuddy.common.Constants.SIMPLE_DATE_FORMA
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,12 +14,15 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RadioButton;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.lifecycle.LiveData;
 
 import com.prenticeweb.weightlossbuddy.R;
 import com.prenticeweb.weightlossbuddy.calculations.HeightConverter;
 import com.prenticeweb.weightlossbuddy.calculations.WeightConverter;
 import com.prenticeweb.weightlossbuddy.room.entity.KeyInfo.PreferredWeightUnit;
+import com.prenticeweb.weightlossbuddy.room.entity.WeightMeasurement;
 import com.prenticeweb.weightlossbuddy.room.view.KeyInfoViewModel;
 import com.prenticeweb.weightlossbuddy.room.view.WeightViewModel;
 import com.prenticeweb.weightlossbuddy.unit.height.Centimetre;
@@ -31,6 +35,7 @@ import com.prenticeweb.weightlossbuddy.unit.weight.StoneAndPounds;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class WeightEntryDialogFragment extends AppCompatDialogFragment {
 
@@ -43,10 +48,13 @@ public class WeightEntryDialogFragment extends AppCompatDialogFragment {
     private final WeightViewModel weightViewModel;
     private final KeyInfoViewModel keyInfoViewModel;
 
-    public WeightEntryDialogFragment(DialogMode mode, WeightViewModel weightViewModel, KeyInfoViewModel keyInfoViewModel) {
+    private final LiveData<List<WeightMeasurement>> existingMeasurements;
+
+    public WeightEntryDialogFragment(DialogMode mode, WeightViewModel weightViewModel, KeyInfoViewModel keyInfoViewModel, LiveData<List<WeightMeasurement>> existingMeasurements) {
         this.mode = mode;
         this.weightViewModel = weightViewModel;
         this.keyInfoViewModel = keyInfoViewModel;
+        this.existingMeasurements = existingMeasurements;
     }
 
     private DatePickerDialog datePicker;
@@ -97,14 +105,46 @@ public class WeightEntryDialogFragment extends AppCompatDialogFragment {
         Button saveButton = dialog.findViewById(R.id.save);
         saveButton.setOnClickListener(v -> {
             if (mode == DialogMode.WEIGHT_ENTRY) {
-                saveWeightEntry(dialog);
+                saveWeightEntryWithCheck(dialog);
             } else {
                 saveTargetSetup(dialog);
+                dialog.dismiss();
             }
-            dialog.dismiss();
         });
 
         return dialog;
+    }
+
+    private void saveWeightEntryWithCheck(Dialog dialog) {
+        String dateString = dateButton.getText().toString();
+        
+        // Check if weight measurement already exists for this date using the existing measurements list
+        try {
+            Date selectedDate = SIMPLE_DATE_FORMAT.parse(dateString);
+            WeightMeasurement existingMeasurement = null;
+            
+            if (existingMeasurements != null) {
+                for (WeightMeasurement measurement : existingMeasurements.getValue()) {
+                    if (measurement.getDate().equals(selectedDate)) {
+                        existingMeasurement = measurement;
+                        break;
+                    }
+                }
+            }
+            
+            if (existingMeasurement != null) {
+                // Show alert dialog for duplicate date
+                showDuplicateDateAlert(dateString, dialog);
+            } else {
+                // No duplicate, proceed with saving
+                saveWeightEntry(dialog);
+                dialog.dismiss();
+            }
+        } catch (Exception e) {
+            // If there's an error, proceed with saving
+            saveWeightEntry(dialog);
+            dialog.dismiss();
+        }
     }
 
     private void saveWeightEntry(Dialog dialog) {
@@ -228,6 +268,32 @@ public class WeightEntryDialogFragment extends AppCompatDialogFragment {
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
         datePicker = new DatePickerDialog(this.getActivity(), 0, dateSetListener, year, month, day);
+    }
+
+    private void showDuplicateDateAlert(String dateString, Dialog parentDialog) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Duplicate Entry");
+        builder.setMessage("Weight measurement for the date " + dateString + " already exists. Do you want to overwrite it?");
+        
+        builder.setPositiveButton("Overwrite", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Proceed with overwrite
+                saveWeightEntry(parentDialog);
+                parentDialog.dismiss();
+            }
+        });
+        
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Don't save, keep dialog open
+                dialog.dismiss();
+            }
+        });
+        
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     private Date getTodayDate() {

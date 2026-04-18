@@ -164,7 +164,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 WeightEntryDialogFragment dialog = new WeightEntryDialogFragment(
                     WeightEntryDialogFragment.DialogMode.TARGET_SETUP,
                     null,
-                    keyInfoViewModel
+                    keyInfoViewModel,
+                    weights
                 );
                 dialog.show(getSupportFragmentManager(), "OnStartupDialogFragment");
             }
