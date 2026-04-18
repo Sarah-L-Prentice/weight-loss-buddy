@@ -45,12 +45,12 @@ fun GaugeProgressScreen(progressPercent: Float, weightLost: String, totalWeightT
     Canvas(
         modifier = Modifier
             .padding(50.dp)
-            .requiredSize(100.dp)
+            .requiredSize(95.dp)
     ) {
         val angleSize = 270f
         val startAngle = 270 - angleSize / 2
         val sweepAngle = angleSize * progressPercent
-        val strokeWidth: Float = 30.0.dp.toPx()
+        val strokeWidth: Float = 20.0.dp.toPx()
 
         drawArc(
             color = lightGrey,

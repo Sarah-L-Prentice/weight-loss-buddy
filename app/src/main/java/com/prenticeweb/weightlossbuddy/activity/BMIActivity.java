@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.prenticeweb.weightlossbuddy.R;
 import com.prenticeweb.weightlossbuddy.calculations.BMICalculator;
-import com.prenticeweb.weightlossbuddy.gauge.GaugeKt;
+import com.prenticeweb.weightlossbuddy.gauge.BMIGaugeKt;
 import com.prenticeweb.weightlossbuddy.room.entity.WeightMeasurement;
 import com.prenticeweb.weightlossbuddy.room.view.WeightViewModel;
 import com.prenticeweb.weightlossbuddy.unit.height.Metre;
@@ -49,6 +49,6 @@ public class BMIActivity extends AppCompatActivity {
         WeightMeasurement currentWeight = weights.getValue().get(weights.getValue().size()-1);
         Kilogram currentWeightKg = new Kilogram(currentWeight.getWeightKg());
         BigDecimal bmi = BMICalculator.calculateBMI(currentWeightKg, new Metre(BigDecimal.valueOf(1.73)));
-        GaugeKt.setContent(view, bmi.floatValue());
+        BMIGaugeKt.setContent(view, bmi.floatValue());
     }
 }

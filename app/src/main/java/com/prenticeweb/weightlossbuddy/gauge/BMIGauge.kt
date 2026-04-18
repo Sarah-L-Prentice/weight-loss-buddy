@@ -21,16 +21,16 @@ import com.prenticeweb.weightlossbuddy.R
 import kotlin.math.cos
 import kotlin.math.sin
 
-class Gauge
+class BMIGauge
 
 fun setContent(composeView: ComposeView, currentBMI: Float){
     composeView.setContent {
-        GaugeScreen(currentBMI)
+        BMIGaugeScreen(currentBMI)
     }
 }
 
 @Composable
-fun GaugeScreen(@FloatRange(from = 0.0, to = 45.0) currentBMI: Float) {
+fun BMIGaugeScreen(@FloatRange(from = 0.0, to = 45.0) currentBMI: Float) {
     val modifier = Modifier.padding(70.dp).requiredSize(100.dp)
     val underweightColour = colorResource(R.color.underweight);
     val normalColour = colorResource(R.color.normal);
@@ -166,5 +166,5 @@ fun getCategorization(@FloatRange(from = 0.0, to = 45.0) currentBMI: Float): Str
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun GaugeBMIPreview() {
-    GaugeScreen(16.4f)
+    BMIGaugeScreen(16.4f)
 }

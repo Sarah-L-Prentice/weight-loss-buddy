@@ -21,9 +21,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.prenticeweb.weightlossbuddy.R;
 import com.prenticeweb.weightlossbuddy.calculations.BMICalculator;
 import com.prenticeweb.weightlossbuddy.calculations.HeightConverter;
-import com.prenticeweb.weightlossbuddy.calculations.WeightConverter;
-import com.prenticeweb.weightlossbuddy.gauge.GaugeKt;
-import com.prenticeweb.weightlossbuddy.gauge.ProgressGauge;
+import com.prenticeweb.weightlossbuddy.gauge.BMIGaugeKt;
 import com.prenticeweb.weightlossbuddy.gauge.ProgressGaugeKt;
 import com.prenticeweb.weightlossbuddy.room.entity.KeyInfo;
 import com.prenticeweb.weightlossbuddy.room.entity.WeightMeasurement;
@@ -32,8 +30,6 @@ import com.prenticeweb.weightlossbuddy.room.view.WeightViewModel;
 import com.prenticeweb.weightlossbuddy.unit.height.Centimetre;
 import com.prenticeweb.weightlossbuddy.unit.height.Metre;
 import com.prenticeweb.weightlossbuddy.unit.weight.Kilogram;
-import com.prenticeweb.weightlossbuddy.unit.weight.Pound;
-import com.prenticeweb.weightlossbuddy.unit.weight.StoneAndPounds;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -126,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Metre heightMetres = HeightConverter.convertCentimetreToMetres(new Centimetre(keyInfoData.getHeightInCm()));
                 Kilogram currentWeightKg = new Kilogram(mostRecent.getWeightKg());
                 BigDecimal bmi = BMICalculator.calculateBMI(currentWeightKg, heightMetres);
-                GaugeKt.setContent(bmiView, bmi.floatValue());
+                BMIGaugeKt.setContent(bmiView, bmi.floatValue());
 
 
                 ComposeView view = findViewById(R.id.progressGauge);
