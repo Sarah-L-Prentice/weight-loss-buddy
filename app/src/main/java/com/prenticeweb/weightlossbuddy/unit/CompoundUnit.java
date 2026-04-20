@@ -47,17 +47,16 @@ public abstract class CompoundUnit extends Unit {
         try {
             CompoundUnit compoundUnit = (CompoundUnit) secondUnit;
             BigDecimal quantityMinorUnitsInMajorUnits = getQuantityMinorUnitsInMajorUnits();
-            BigDecimal majorUnits = negateQuantity().subtract(compoundUnit.negateQuantity());
-            BigDecimal minorUnits = negateMinorUnitQuantity().subtract(compoundUnit.negateMinorUnitQuantity());
 
-            // Handle borrowing if minor units are negative
-            if (minorUnits.compareTo(BigDecimal.ZERO) < 0 && majorUnits.compareTo(BigDecimal.ZERO) > 0) {
-                minorUnits = minorUnits.add(quantityMinorUnitsInMajorUnits);
-                majorUnits = majorUnits.subtract(BigDecimal.ONE);
-            }
+            BigDecimal totalMinorUnitsFirst = negateQuantity().multiply(quantityMinorUnitsInMajorUnits).add(negateMinorUnitQuantity());
+            BigDecimal totalMinorUnitsSecond = compoundUnit.negateQuantity().multiply(quantityMinorUnitsInMajorUnits).add(compoundUnit.negateMinorUnitQuantity());
 
-            boolean isNegative = majorUnits.compareTo(BigDecimal.ZERO) < 0 || minorUnits.compareTo(BigDecimal.ZERO) < 0;
-            T result = (T) secondUnit.getClass().getConstructor(BigDecimal.class, BigDecimal.class, boolean.class).newInstance(majorUnits.abs(), minorUnits.abs(), isNegative);
+            BigDecimal resultMinorUnits = totalMinorUnitsFirst.subtract(totalMinorUnitsSecond);
+            boolean isNegative = resultMinorUnits.compareTo(BigDecimal.ZERO) < 0;
+            BigDecimal majorUnits = resultMinorUnits.abs().divide(quantityMinorUnitsInMajorUnits, 0, RoundingMode.FLOOR);
+            BigDecimal minorUnits = resultMinorUnits.abs().subtract(majorUnits.multiply(quantityMinorUnitsInMajorUnits));
+
+            T result = (T) secondUnit.getClass().getConstructor(BigDecimal.class, BigDecimal.class, boolean.class).newInstance(majorUnits, minorUnits, isNegative);
             return result;
         } catch (Exception e) {
             throw new RuntimeException(e);

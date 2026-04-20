@@ -29,7 +29,8 @@ class CompoundUnitTest {
         // Borrowing cases (when minor units need to borrow)
         "5, 2, 2, 8, 2st 8lbs",
         "10, 3, 5, 10, 4st 7lbs",
-        "3, 1, 1, 13, 1st 2lbs"
+        "3, 1, 1, 13, 1st 2lbs",
+        "11, 13, 12, 6, -0st 7lbs"
     })
     void subtractWithVariousCombinations(BigDecimal stone1, BigDecimal lb1, 
                                         BigDecimal stone2, BigDecimal lb2, 
@@ -51,8 +52,8 @@ class CompoundUnitTest {
         
         // Large values
         "100, 10, 50, 5, 50st 5lbs",
-        "-100, 10, 50, 5, -150st 15lbs",
-        "100, 10, -50, 5, 150st 15lbs",
+        "-100, 10, 50, 5, -151st 1lbs",
+        "100, 10, -50, 5, 151st 1lbs",
         
         // Decimal values in minor units
         "5, 7.5, 2, 3.2, 3st 4lbs",
