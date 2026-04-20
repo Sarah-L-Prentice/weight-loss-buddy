@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initWeightMeasurementsData();
         initCurrentWeightTile();
         initTargetWeightTile();
+        initCardClickListeners();
     }
 
     @Override
@@ -73,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (v.getId() == R.id.cardViewCurrentWeight) {
             Intent intent = new Intent(this, ScreenSliderPagerActivity.class);
             startActivity(intent);
+        } else if (v.getId() == R.id.cardViewTargetWeight || v.getId() == R.id.cardViewBMR) {
+            showTargetSetupDialog();
         }
     }
 
@@ -203,5 +206,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         xAxis.setValueFormatter(new IndexAxisValueFormatter(xValues));
         chart.notifyDataSetChanged();
         chart.invalidate();
+    }
+
+    private void initCardClickListeners() {
+        findViewById(R.id.cardViewTargetWeight).setOnClickListener(this);
+        findViewById(R.id.cardViewBMR).setOnClickListener(this);
+    }
+
+    private void showTargetSetupDialog() {
+        WeightEntryDialogFragment dialog = new WeightEntryDialogFragment(
+                WeightEntryDialogFragment.DialogMode.TARGET_SETUP,
+                null,
+                keyInfoViewModel,
+                weights
+        );
+        dialog.show(getSupportFragmentManager(), "TargetSetupDialogFragment");
     }
 }

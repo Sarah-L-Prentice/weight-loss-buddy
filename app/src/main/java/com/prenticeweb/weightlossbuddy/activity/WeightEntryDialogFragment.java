@@ -8,11 +8,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
@@ -100,6 +99,7 @@ public class WeightEntryDialogFragment extends AppCompatDialogFragment {
             initHeightCmText(dialog);
             initHeightFeetAndInchesText(dialog);
             weightUnitRadioGroup = dialog.findViewById(R.id.radioGroup);
+            populateTargetSetupFields(dialog);
         }
 
         Button saveButton = dialog.findViewById(R.id.save);
@@ -167,6 +167,55 @@ public class WeightEntryDialogFragment extends AppCompatDialogFragment {
         PreferredWeightUnit preferredWeightUnit = getPreferredWeightUnit();
 
         keyInfoViewModel.insert(heightCm, heightInches.getQuantity(), targetWeightLb, targetWeightKg, preferredWeightUnit);
+    }
+
+    private void populateTargetSetupFields(Dialog dialog) {
+        // Observe KeyInfo data and populate fields when available
+        keyInfoViewModel.getReadAll().observe(this, keyInfo -> {
+            if (keyInfo != null) {
+                // Populate weight fields
+                setTextSilently(kgEditText, kgEditTextWatcher, keyInfo.getTargetWeightKg().toString());
+                setTextSilently(lbEditText, lbEditTextWatcher, keyInfo.getTargetWeightLb().toString());
+                
+                // Populate stone and pounds fields from target weight
+                Kilogram targetKg = new Kilogram(keyInfo.getTargetWeightKg());
+                StoneAndPounds stoneAndPounds = WeightConverter.convertKgToStoneAndPounds(targetKg);
+                setTextSilentlyForSharedWatcher(stoneEditText, lbsEditText, stoneAndPoundsEditTextWatcher,
+                    stoneAndPounds.getQuantity().toString(), stoneAndPounds.getMinorUnit().getScaledUnit());
+                
+                // Populate height fields
+                setTextSilently(heightCmEditText, heightCmEditTextWatcher, keyInfo.getHeightInCm().toString());
+                
+                // Convert height to feet and inches
+                Centimetre cm = new Centimetre(keyInfo.getHeightInCm());
+                FeetAndInches feetAndInches = HeightConverter.convertCmToFeetAndInches(cm);
+                setTextSilentlyForSharedWatcher(heightFeetEditText, heightInchesEditText, heightFeetAndInchesEditTextWatcher,
+                    feetAndInches.getQuantity().toString(), feetAndInches.getMinorUnit().getScaledUnit());
+                
+                // Set preferred weight unit radio button
+                setPreferredWeightUnitRadio(keyInfo.getPreferredWeightUnit());
+            }
+        });
+    }
+
+    private void setPreferredWeightUnitRadio(PreferredWeightUnit preferredWeightUnit) {
+        if (weightUnitRadioGroup != null) {
+            int radioButtonId = -1;
+            switch (preferredWeightUnit) {
+                case KG:
+                    radioButtonId = R.id.radioKg;
+                    break;
+                case LB:
+                    radioButtonId = R.id.radioLb;
+                    break;
+                case STONE_AND_POUNDS:
+                    radioButtonId = R.id.radioStoneAndPounds;
+                    break;
+            }
+            if (radioButtonId != -1) {
+                weightUnitRadioGroup.check(radioButtonId);
+            }
+        }
     }
 
     private void initStoneAndPoundsText(Dialog dialog) {
