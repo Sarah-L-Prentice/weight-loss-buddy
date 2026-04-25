@@ -28,7 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="70dp"
             app:layout_row="0"
-            app:layout_column="0"/>
+            app:layout_column="0" />
 
         <TextView
             android:id="@+id/textViewWeight"
@@ -95,7 +95,8 @@
         android:layout_marginBottom="28dp"
         android:clickable="true"
         android:src="@android:drawable/ic_input_add"
-        android:tint="@color/primary"
+        android:tint="@color/primaryDark"
+        android:backgroundTint="@color/primary"
         app:elevation="6dp" />
 
 

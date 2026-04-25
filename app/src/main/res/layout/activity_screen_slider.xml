@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!-- activity_screen_slide.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,11 +10,12 @@
     <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tab_layout">
+        android:id="@+id/tab_layout"
+        app:tabIndicatorColor="@color/primaryDark">
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/kg"/>
+            android:text="@string/kg" />
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

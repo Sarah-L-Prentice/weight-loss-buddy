@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="accent">#058B9B</color>
+    <color name="primary">#04D3F0</color>
+    <color name="primaryDark">#033E45</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="lightYellow">#E6EE9C</color>
-    <color name="accent">#78888A</color>
     <color name="lightGrey">#6DB3BEC1</color>
-    <color name="primary">#737883</color>
-    <color name="primaryDark">#637087</color>
+
     <color name="underweight">#05FBEF</color>
-    <color name="normal">#09FF22</color>
-    <color name="overweight">#FFF309</color>
-    <color name="obese">#FF5309</color>
-    <color name="severelyObese">#ce0000</color>
-    <color name="morbidlyObese">#A036A0</color>
+    <color name="normal">#73DC7D</color>
+    <color name="overweight">#E0DB83</color>
+    <color name="obese">#CC7753</color>
+    <color name="severelyObese">#C35454</color>
+    <color name="morbidlyObese">#D07BD0</color>
     <color name="transparent">#00044BC5</color>
 </resources>
