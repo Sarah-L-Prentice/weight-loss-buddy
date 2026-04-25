@@ -89,6 +89,11 @@ public abstract class CompoundUnit extends Unit {
     }
 
     @Override
+    public String getSignedFormattedUnit() {
+        return getSignedFormattedUnit(getDefaultScaleMinorUnit());
+    }
+
+    @Override
     public String getSignedFormattedUnit(int scale) {
         String amountString = getFormattedUnit(scale);
         if(amountString.contains("-")) {

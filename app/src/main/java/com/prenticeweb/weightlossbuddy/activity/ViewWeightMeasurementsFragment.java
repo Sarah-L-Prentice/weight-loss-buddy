@@ -168,7 +168,7 @@ public class ViewWeightMeasurementsFragment extends Fragment {
         textView.setPadding(5, 5, 5, 5);
         textView.setGravity(Gravity.CENTER);
         textView.setTextColor(Color.BLACK);
-        textView.setTextSize(14);
+        textView.setTextSize(13);
         GridLayout.LayoutParams params = getLayoutParams(col, row);
         textView.setLayoutParams(params);
     }

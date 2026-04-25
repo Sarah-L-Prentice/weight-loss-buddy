@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 public class Pound extends Unit {
 
-    private static final int DEFAULT_SCALE = 1;
+    protected static final int DEFAULT_SCALE = 1;
     private static final String UNIT_SHORTHAND = "lbs";
 
     public Pound(BigDecimal quantity) {

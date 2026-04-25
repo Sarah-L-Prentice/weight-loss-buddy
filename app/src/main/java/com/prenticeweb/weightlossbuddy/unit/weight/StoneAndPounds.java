@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 public class StoneAndPounds extends CompoundUnit {
 
     private static final int DEFAULT_SCALE_STONE = 0;
-    private static final int DEFAULT_SCALE_LB = 0;
+    private static final int DEFAULT_SCALE_LB = Pound.DEFAULT_SCALE;
     private static final String STONE_SHORTHAND = "st";
     private static final BigDecimal LBS_IN_ONE_STONE = new BigDecimal("14");
 

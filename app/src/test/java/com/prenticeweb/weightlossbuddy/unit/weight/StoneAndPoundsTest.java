@@ -14,19 +14,19 @@ class StoneAndPoundsTest {
 
     @ParameterizedTest
     @CsvSource({
-            "2.2046, 0st 2lbs",
-            "4.4092, 0st 4lbs",
-            "11.0231, 0st 11lbs",
-            "17.6370, 1st 4lbs",
-            "171.9606, 12st 4lbs",
-            "178.5744, 12st 11lbs",
-            "1.1023, 0st 1lbs",
-            "1.6535, 0st 2lbs",
-            "0.5512, 0st 1lbs",
-            "0.4654, 0st 0lbs",
-            "1.9632, 0st 2lbs",
-            "182.0136, 13st 0lbs",
-            "165.0100, 11st 11lbs",
+            "2.2046, 0st 2.2lbs",
+            "4.4092, 0st 4.4lbs",
+            "11.0231, 0st 11.0lbs",
+            "17.6370, 1st 3.6lbs",
+            "171.9606, 12st 4.0lbs",
+            "178.5744, 12st 10.6lbs",
+            "1.1023, 0st 1.1lbs",
+            "1.6535, 0st 1.7lbs",
+            "0.5512, 0st 0.6lbs",
+            "0.4654, 0st 0.5lbs",
+            "1.9632, 0st 2.0lbs",
+            "182.0136, 13st 0.0lbs",
+            "165.0100, 11st 11.0lbs",
     })
     void defaultScaleFormatLbsToStoneWithLbs(BigDecimal lbs, String expectedReturnVal) {
         String result = getClassToTest(lbs).getFormattedUnit();
@@ -48,6 +48,7 @@ class StoneAndPoundsTest {
             "1.9632, 3, 0st 1.963lbs",
             "182.0136, 4, 13st 0.0136lbs",
             "165.0100, 5, 11st 11.01000lbs",
+            "167.6, 0, 12st 0lbs"
     })
     void formatLbsToStoneWithLbsFormattedToInputScale(BigDecimal lbs, int scaleInput, String expectedReturnVal) {
         String result = getClassToTest(lbs).getFormattedUnit(scaleInput);
@@ -56,10 +57,10 @@ class StoneAndPoundsTest {
 
     @ParameterizedTest
     @CsvSource({
-            "-1, -3, true,  -1st 3lbs",
-            "-0,  2, true,  -0st 2lbs",
-            " 0,  2, false, 0st 2lbs",
-            "-2,  0, true,  -2st 0lbs"
+            "-1, -3, true,  -1st 3.0lbs",
+            "-0,  2, true,  -0st 2.0lbs",
+            " 0,  2, false, 0st 2.0lbs",
+            "-2,  0, true,  -2st 0.0lbs"
     })
     void formatNegatives(BigDecimal stone, BigDecimal lb, boolean isNegative, String expected) {
         StoneAndPounds stoneAndPounds = new StoneAndPounds(stone, lb, isNegative);
@@ -68,11 +69,11 @@ class StoneAndPoundsTest {
 
     @ParameterizedTest
     @CsvSource({
-            "-1, -3, true,  -1st 3lbs",
-            " 1,  3, false, +1st 3lbs",
-            " 0, -2, true,  -0st 2lbs",
-            " 0,  2, false, +0st 2lbs",
-            "-2,  0, true,  -2st 0lbs"
+            "-1, -3, true,  -1st 3.0lbs",
+            " 1,  3, false, +1st 3.0lbs",
+            " 0, -2, true,  -0st 2.0lbs",
+            " 0,  2, false, +0st 2.0lbs",
+            "-2,  0, true,  -2st 0.0lbs"
     })
     void getSignedFormattedUnit(BigDecimal stone, BigDecimal lb, boolean isNegative, String expected) {
         StoneAndPounds stoneAndPounds = new StoneAndPounds(stone, lb, isNegative);
