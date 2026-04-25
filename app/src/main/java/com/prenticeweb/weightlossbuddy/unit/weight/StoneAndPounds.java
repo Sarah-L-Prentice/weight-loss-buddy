@@ -41,15 +41,7 @@ public class StoneAndPounds extends CompoundUnit {
     protected BigDecimal getQuantityMinorUnitsInMajorUnits() {
         return LBS_IN_ONE_STONE;
     }
-    
-    @Override
-    public String getFormattedUnit(int scale) {
-        if (isNegative()) {
-            return "-" + getQuantity() + getUnitNameShorthand() + " " + getMinorUnit().getFormattedUnit(scale);
-        } else {
-            return getQuantity() + getUnitNameShorthand() + " " + getMinorUnit().getFormattedUnit(scale);
-        }
-    }
+
     
     @Override
     public String getFormattedUnit() {

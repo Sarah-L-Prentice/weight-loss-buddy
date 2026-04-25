@@ -5,6 +5,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class CompoundUnit extends Unit {
     private Unit minorUnit;
@@ -65,11 +67,24 @@ public abstract class CompoundUnit extends Unit {
 
     @Override
     public String getFormattedUnit(int scale) {
-        String minus = "-";
-        if(minorUnit.getQuantity().compareTo(BigDecimal.ZERO) < 0 || getQuantity().compareTo(BigDecimal.ZERO) < 0) {
-            return StringUtils.join(minus, getQuantity().abs(), getUnitNameShorthand(), " ", minorUnit.getFormattedUnit(scale).replace("-", ""));
-        } else{
-            return StringUtils.join(getQuantity(), getUnitNameShorthand(), " ", minorUnit.getFormattedUnit(scale));
+        String minorUnits = getMinorUnit().getFormattedUnit(scale);
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(minorUnits);
+        matcher.find();
+        BigDecimal amountMinorUnits = new BigDecimal(matcher.group());
+        BigDecimal amountMajorUnits;
+
+        if(amountMinorUnits.equals(getQuantityMinorUnitsInMajorUnits())) {
+            amountMajorUnits = getQuantity().add(BigDecimal.ONE);
+            minorUnits = minorUnits.replace(amountMinorUnits.toString(), "0");
+        } else {
+            amountMajorUnits = getQuantity();
+        }
+
+        if (isNegative()) {
+            return "-" + amountMajorUnits + getUnitNameShorthand() + " " + minorUnits;
+        } else {
+            return amountMajorUnits + getUnitNameShorthand() + " " + minorUnits;
         }
     }
 
